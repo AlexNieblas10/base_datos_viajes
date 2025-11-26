@@ -3,9 +3,9 @@ package org.base_datos_viajes.model;
 import org.bson.types.ObjectId;
 
 import java.io.Serializable;
-import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,8 +20,8 @@ public class Viaje implements Serializable {
     private String nombre;
     private String destino;
     private String origen;
-    private Date fecha;
-    private Time hora;
+    private LocalDate fecha;
+    private LocalTime hora;
     private double precioTotal;
     private List<Parada> paradas;
 
@@ -35,7 +35,7 @@ public class Viaje implements Serializable {
     /**
      * Constructor con parámetros principales.
      */
-    public Viaje(String nombre, String destino, String origen, Date fecha, Time hora, double precioTotal) {
+    public Viaje(String nombre, String destino, String origen, LocalDate fecha, LocalTime hora, double precioTotal) {
         this.nombre = nombre;
         this.destino = destino;
         this.origen = origen;
@@ -48,7 +48,7 @@ public class Viaje implements Serializable {
     /**
      * Constructor completo con paradas.
      */
-    public Viaje(String nombre, String destino, String origen, Date fecha, Time hora, double precioTotal, List<Parada> paradas) {
+    public Viaje(String nombre, String destino, String origen, LocalDate fecha, LocalTime hora, double precioTotal, List<Parada> paradas) {
         this.nombre = nombre;
         this.destino = destino;
         this.origen = origen;
@@ -90,19 +90,19 @@ public class Viaje implements Serializable {
         this.origen = origen;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
-    public Time getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 
-    public void setHora(Time hora) {
+    public void setHora(LocalTime hora) {
         this.hora = hora;
     }
 
