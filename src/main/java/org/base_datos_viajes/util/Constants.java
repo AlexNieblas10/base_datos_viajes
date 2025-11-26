@@ -14,6 +14,11 @@ public final class Constants {
     public static final String MONGODB_URI_KEY = "mongodb.uri";
     public static final String MONGODB_DATABASE_KEY = "mongodb.database";
 
+    // ===== NOMBRES DE COLECCIONES =====
+    public static final String COLLECTION_USUARIOS = "usuarios";
+    public static final String COLLECTION_CONDUCTORES = "conductores";
+    public static final String COLLECTION_VIAJES = "viajes";
+
     // ===== NOMBRES DE CAMPOS COMUNES =====
     public static final String FIELD_ID = "_id";
 
