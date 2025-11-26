@@ -1,0 +1,150 @@
+package org.base_datos_viajes.model;
+
+import org.bson.types.ObjectId;
+
+import java.io.Serializable;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * POJO representando un viaje.
+ */
+public class Viaje implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private ObjectId id;
+    private String nombre;
+    private String destino;
+    private String origen;
+    private Date fecha;
+    private Time hora;
+    private double precioTotal;
+    private List<Parada> paradas;
+
+    /**
+     * Constructor sin argumentos requerido por MongoDB POJO codec.
+     */
+    public Viaje() {
+        this.paradas = new ArrayList<>();
+    }
+
+    /**
+     * Constructor con parámetros principales.
+     */
+    public Viaje(String nombre, String destino, String origen, Date fecha, Time hora, double precioTotal) {
+        this.nombre = nombre;
+        this.destino = destino;
+        this.origen = origen;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.precioTotal = precioTotal;
+        this.paradas = new ArrayList<>();
+    }
+
+    /**
+     * Constructor completo con paradas.
+     */
+    public Viaje(String nombre, String destino, String origen, Date fecha, Time hora, double precioTotal, List<Parada> paradas) {
+        this.nombre = nombre;
+        this.destino = destino;
+        this.origen = origen;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.precioTotal = precioTotal;
+        this.paradas = paradas != null ? paradas : new ArrayList<>();
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getDestino() {
+        return destino;
+    }
+
+    public void setDestino(String destino) {
+        this.destino = destino;
+    }
+
+    public String getOrigen() {
+        return origen;
+    }
+
+    public void setOrigen(String origen) {
+        this.origen = origen;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public Time getHora() {
+        return hora;
+    }
+
+    public void setHora(Time hora) {
+        this.hora = hora;
+    }
+
+    public double getPrecioTotal() {
+        return precioTotal;
+    }
+
+    public void setPrecioTotal(double precioTotal) {
+        this.precioTotal = precioTotal;
+    }
+
+    public List<Parada> getParadas() {
+        return paradas;
+    }
+
+    public void setParadas(List<Parada> paradas) {
+        this.paradas = paradas != null ? paradas : new ArrayList<>();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Viaje viaje = (Viaje) o;
+        return Objects.equals(id, viaje.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Viaje{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", destino='" + destino + '\'' +
+                ", origen='" + origen + '\'' +
+                ", fecha=" + fecha +
+                ", hora=" + hora +
+                ", precioTotal=" + precioTotal +
+                '}';
+    }
+}
