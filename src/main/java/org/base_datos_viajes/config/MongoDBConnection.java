@@ -7,11 +7,16 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import org.base_datos_viajes.exception.DatabaseException;
 import org.base_datos_viajes.util.Constants;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 /**
  * Clase Singleton para gestionar la conexión a MongoDB.
@@ -84,8 +89,21 @@ public class MongoDBConnection implements AutoCloseable {
         int maxPoolSize = Integer.parseInt(properties.getProperty("mongodb.max.pool.size", "100"));
         int minPoolSize = Integer.parseInt(properties.getProperty("mongodb.min.pool.size", "10"));
 
+        // Configurar el codec registry para soportar POJOs
+        CodecRegistry pojoCodecRegistry = fromProviders(
+                PojoCodecProvider.builder()
+                        .automatic(true)
+                        .build()
+        );
+
+        CodecRegistry codecRegistry = fromRegistries(
+                MongoClientSettings.getDefaultCodecRegistry(),
+                pojoCodecRegistry
+        );
+
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(new ConnectionString(uri))
+                .codecRegistry(codecRegistry)
                 .applyToConnectionPoolSettings(builder ->
                         builder.maxSize(maxPoolSize)
                                 .minSize(minPoolSize)
