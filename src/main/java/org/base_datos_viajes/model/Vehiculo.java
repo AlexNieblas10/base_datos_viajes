@@ -2,6 +2,7 @@ package org.base_datos_viajes.model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import org.bson.types.ObjectId;
 
 /**
  * POJO representando un vehículo.
@@ -11,6 +12,7 @@ public class Vehiculo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private ObjectId id;
     private String marca;
     private String modelo;
     private String color;
@@ -83,6 +85,16 @@ public class Vehiculo implements Serializable {
     public void setCapacidad(int capacidad) {
         this.capacidad = capacidad;
     }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
+    
+    
 
     @Override
     public boolean equals(Object o) {
