@@ -25,6 +25,8 @@ public class Viaje implements Serializable {
     private double precioTotal;
     private List<Parada> paradas;
 
+    private ObjectId conductorId; 
+    private ObjectId vehiculoId;
     /**
      * Constructor sin argumentos requerido por MongoDB POJO codec.
      */
@@ -121,6 +123,24 @@ public class Viaje implements Serializable {
     public void setParadas(List<Parada> paradas) {
         this.paradas = paradas != null ? paradas : new ArrayList<>();
     }
+
+    public ObjectId getConductorId() {
+        return conductorId;
+    }
+
+    public void setConductorId(ObjectId conductorId) {
+        this.conductorId = conductorId;
+    }
+
+    public ObjectId getVehiculoId() {
+        return vehiculoId;
+    }
+
+    public void setVehiculoId(ObjectId vehiculoId) {
+        this.vehiculoId = vehiculoId;
+    }
+    
+    
 
     @Override
     public boolean equals(Object o) {

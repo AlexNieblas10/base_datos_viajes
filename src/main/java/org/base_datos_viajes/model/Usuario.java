@@ -16,6 +16,8 @@ public class Usuario implements Serializable {
     private String usuario;
     private String contraseña;
 
+    private ObjectId conductorId; 
+    private ObjectId pasajeroId;
     /**
      * Constructor sin argumentos requerido por MongoDB POJO codec.
      */
@@ -61,6 +63,23 @@ public class Usuario implements Serializable {
         this.contraseña = contraseña;
     }
 
+    public ObjectId getConductorId() {
+        return conductorId;
+    }
+
+    public void setConductorId(ObjectId conductorId) {
+        this.conductorId = conductorId;
+    }
+
+    public ObjectId getPasajeroId() {
+        return pasajeroId;
+    }
+
+    public void setPasajeroId(ObjectId pasajeroId) {
+        this.pasajeroId = pasajeroId;
+    }
+
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
