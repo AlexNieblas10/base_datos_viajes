@@ -52,8 +52,11 @@ public class InicializadorDatosPrueba {
             // Crear Vehículos (Usando el constructor de Vehiculo.java)
             // Constructor: Vehiculo(ObjectId id, String marca, String modelo, String color, String numSerie, String placas, int capacidad)
             Vehiculo vehiculo1 = new Vehiculo("Honda", "Civic 2020", "Blanco", "H2020B", "ABC-123", 4);
+            vehiculo1.setId(new ObjectId());
             Vehiculo vehiculo2 = new Vehiculo("Toyota", "Corolla 2021", "Gris", "T2021G", "XYZ-789", 4);
+            vehiculo2.setId(new ObjectId());
             Vehiculo vehiculo3 = new Vehiculo("Volkswagen", "Jetta 2019", "Negro", "V2019N", "DEF-456", 4);
+            vehiculo3.setId(new ObjectId());
             
             List<Vehiculo> vehiculos = Arrays.asList(vehiculo1, vehiculo2, vehiculo3);
             List<Viaje> viajesIniciales = new ArrayList<>();
