@@ -60,7 +60,7 @@ public class InicializadorDatosPrueba {
 
             // Crear y persistir Conductor
   
-            Conductor conductor1 = new Conductor("Carlos Perez", 100.0, viajesIniciales, vehiculos);
+            Conductor conductor1 = new Conductor("Carlos Perez", 100.0, vehiculos);
             
              conductorDAO.save(conductor1);
             LOGGER.log(Level.INFO, "Conductor de prueba insertado con ID: {0}", conductor1.getId());
@@ -81,7 +81,7 @@ public class InicializadorDatosPrueba {
 
             // 3. Crear y persistir Usuario vinculado al Conductor
             Usuario usuario1 = new Usuario("cperez", "1234");
-            usuario1.setId(conductor1.getId());
+            usuario1.setConductorId(conductor1.getId());
             usuarioDAO.save(usuario1);
             LOGGER.log(Level.INFO, "Usuario de prueba (cperez) insertado con ID: {0}", usuario1.getId());
 
@@ -107,8 +107,8 @@ public class InicializadorDatosPrueba {
                 250.0              
             );
   
-            viaje1.setId(conductor1.getId());
-            viaje1.setId(vehiculoId1);
+            viaje1.setConductorId(conductor1.getId());
+            viaje1.setVehiculoId(vehiculoId1);
             viaje1.setParadas(paradasViaje1);
             viajeDAO.save(viaje1); 
             LOGGER.log(Level.INFO, "Viaje de prueba 1 insertado con ID: {0}", viaje1.getId());
@@ -131,8 +131,8 @@ public class InicializadorDatosPrueba {
                 70.0
             );
      
-            viaje2.setId(conductor1.getId());
-            viaje2.setId(vehiculoId2); 
+            viaje2.setConductorId(conductor1.getId());
+            viaje2.setVehiculoId(vehiculoId2); 
             viaje2.setParadas(paradasViaje2);
             viajeDAO.save(viaje2);
             LOGGER.log(Level.INFO, "Viaje de prueba 2 insertado con ID: {0}", viaje2.getId());

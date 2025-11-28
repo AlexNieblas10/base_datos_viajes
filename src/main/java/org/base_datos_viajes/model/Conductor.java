@@ -17,24 +17,21 @@ public class Conductor implements Serializable {
     private ObjectId id;
     private String nombre;
     private double calificacion;
-    private List<Viaje> viajes;
     private List<Vehiculo> vehiculos;
 
     /**
      * Constructor sin argumentos requerido por MongoDB POJO codec.
      */
     public Conductor() {
-        this.viajes = new ArrayList<>();
         this.vehiculos = new ArrayList<>();
     }
 
     /**
      * Constructor con parámetros.
      */
-    public Conductor(String nombre, double calificacion, List<Viaje> viajes, List<Vehiculo> vehiculos) {
+    public Conductor(String nombre, double calificacion, List<Vehiculo> vehiculos) {
         this.nombre = nombre;
         this.calificacion = calificacion;
-        this.viajes = viajes != null ? viajes : new ArrayList<>();
         this.vehiculos = vehiculos != null ? vehiculos : new ArrayList<>();
     }
 
@@ -60,14 +57,6 @@ public class Conductor implements Serializable {
 
     public void setCalificacion(double calificacion) {
         this.calificacion = calificacion;
-    }
-
-    public List<Viaje> getViajes() {
-        return viajes;
-    }
-
-    public void setViajes(List<Viaje> viajes) {
-        this.viajes = viajes != null ? viajes : new ArrayList<>();
     }
 
     public List<Vehiculo> getVehiculos() {

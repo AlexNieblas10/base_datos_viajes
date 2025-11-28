@@ -125,7 +125,7 @@ public class TestConductorDAO {
 
         viajes.add(viaje1);
         viajes.add(viaje2);
-        conductor.setViajes(viajes);
+        //conductor.setViajes(viajes);
 
         return conductor;
     }

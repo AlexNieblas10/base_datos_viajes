@@ -205,15 +205,16 @@ public class ConductorDAO implements GenericDAO<Conductor, ObjectId>, IConductor
     @Override
     public List<Viaje> obtenerViajes(String conductorId) throws DatabaseException {
         try {
-            ValidationUtil.validateObjectId(conductorId, "conductorId");
-            Optional<Conductor> conductorOpt = findById(new ObjectId(conductorId));
+        ValidationUtil.validateObjectId(conductorId, "conductorId");
+        
+        //Consultar la coleccion de viajes por la referencia
+        MongoCollection<Viaje> viajeCollection = MongoDBConnection.getInstance()
+                .getDatabase()
+                .getCollection(Constants.COLLECTION_VIAJES, Viaje.class);
 
-            if (conductorOpt.isEmpty()) {
-                return Collections.emptyList();
-            }
-
-            Conductor conductor = conductorOpt.get();
-            return conductor.getViajes() != null ? conductor.getViajes() : Collections.emptyList();
+        // buscar todos los viajes donde conductorId coincida
+        return viajeCollection.find(Filters.eq("conductorId", new ObjectId(conductorId)))
+                .into(new ArrayList<>());
         } catch (Exception e) {
             throw new DatabaseException("Error al obtener viajes del conductor", e);
         }

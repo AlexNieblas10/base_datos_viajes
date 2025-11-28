@@ -5,12 +5,14 @@ import org.base_datos_viajes.model.Vehiculo;
 import org.base_datos_viajes.model.Viaje;
 
 import java.util.List;
+import org.base_datos_viajes.model.Conductor;
+import org.bson.types.ObjectId;
 
 /**
  * Interfaz específica para operaciones del DAO de Conductor.
  * Define métodos adicionales más allá del GenericDAO para obtener datos embebidos.
  */
-public interface IConductorDAO {
+public interface IConductorDAO extends GenericDAO<Conductor, ObjectId>{
 
     /**
      * Obtiene todos los viajes de un conductor específico.

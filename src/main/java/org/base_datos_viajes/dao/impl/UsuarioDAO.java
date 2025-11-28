@@ -195,4 +195,21 @@ public class UsuarioDAO implements GenericDAO<Usuario, ObjectId> {
             throw new DatabaseException("Error al obtener usuarios con paginación", e);
         }
     }
+
+    //buscar por usuario y contraseña
+    public Optional<Usuario> consultarPorCredenciales(String usuario, String contrasena) throws DatabaseException {
+        try {
+            Bson filtro = Filters.and(
+                    Filters.eq("usuario", usuario),
+                    Filters.eq("contraseña", contrasena)
+            );
+
+            Usuario entidad = collection.find(filtro).first();
+            return Optional.ofNullable(entidad);
+
+        } catch (Exception e) {
+            throw new DatabaseException("Error al consultar usuario por credenciales", e);
+        }
+    }
+
 }
