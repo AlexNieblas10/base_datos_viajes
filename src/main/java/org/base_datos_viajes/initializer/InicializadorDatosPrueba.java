@@ -1,19 +1,16 @@
+package org.base_datos_viajes.initializer;
+
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.base_datos_viajes.config.AppConfig;
 import org.base_datos_viajes.dao.impl.ConductorDAO;
 import org.base_datos_viajes.dao.impl.UsuarioDAO;
 import org.base_datos_viajes.dao.impl.ViajeDAO;
-import org.base_datos_viajes.dao.interfaces.GenericDAO;
-import org.base_datos_viajes.dao.interfaces.IConductorDAO;
-import org.base_datos_viajes.dao.interfaces.IViajeDAO;
 import org.base_datos_viajes.exception.DatabaseException;
 import org.base_datos_viajes.exception.ValidationException;
 import org.base_datos_viajes.model.Conductor;
@@ -46,7 +43,7 @@ public class InicializadorDatosPrueba {
     /**
      * Agrega datos de prueba a la base de datos de MongoDB.
      */
-   public void agregarDatosPrueba() {
+   private void agregarDatosPrueba() {
         LOGGER.info("Iniciando insercion de datos de prueba...");
         try {
             // Crear Vehículos (Usando el constructor de Vehiculo.java)
@@ -146,8 +143,22 @@ public class InicializadorDatosPrueba {
             LOGGER.log(Level.SEVERE, "Error al insertar datos de prueba. Asegurate de que MongoDB este corriendo y la conexion sea correcta: " + e.getMessage(), e);
         }
     }
+   
+   public static void inicializarSiEsNecesario() {
+    InicializadorDatosPrueba initializer = new InicializadorDatosPrueba();
+    try {
+        // Verifica si ya existen usuarios en la BD
+        if (initializer.usuarioDAO.count() == 0) {
+            initializer.agregarDatosPrueba();
+        } else {
+            LOGGER.info("La base de datos ya contiene datos. Inicialización omitida.");
+        }
+    } catch (Exception e) {
+        LOGGER.log(Level.SEVERE, "Error durante la verificación/inicialización de la BD.", e);
+    }
+}
 
     public static void main(String[] args) {
-        new InicializadorDatosPrueba().agregarDatosPrueba();
+        inicializarSiEsNecesario();
     }
 }
