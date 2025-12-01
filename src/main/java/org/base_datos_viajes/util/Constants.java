@@ -18,6 +18,7 @@ public final class Constants {
     public static final String COLLECTION_USUARIOS = "usuarios";
     public static final String COLLECTION_CONDUCTORES = "conductores";
     public static final String COLLECTION_VIAJES = "viajes";
+    public static final String COLLECTION_RUTAS = "RutasFrecuentes";
 
     // ===== NOMBRES DE CAMPOS COMUNES =====
     public static final String FIELD_ID = "_id";
