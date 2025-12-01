@@ -153,7 +153,7 @@ public class InicializadorDatosPrueba {
         } else {
             LOGGER.info("La base de datos ya contiene datos. Inicialización omitida.");
         }
-    } catch (Exception e) {
+    } catch (DatabaseException e) {
         LOGGER.log(Level.SEVERE, "Error durante la verificación/inicialización de la BD.", e);
     }
 }
