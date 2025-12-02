@@ -12,6 +12,7 @@ public class Adeudo {
 
     private ObjectId id;
     private ObjectId conductorId;  // Referencia al conductor
+    private ObjectId viajeId;      // Referencia al viaje que generó el adeudo
     private int monto;
     private String concepto;
     private LocalDateTime fecha;
@@ -23,6 +24,15 @@ public class Adeudo {
 
     public Adeudo(ObjectId conductorId, int monto, String concepto, LocalDateTime fecha) {
         this.conductorId = conductorId;
+        this.monto = monto;
+        this.concepto = concepto;
+        this.fecha = fecha;
+        this.pagado = false;
+    }
+
+    public Adeudo(ObjectId conductorId, ObjectId viajeId, int monto, String concepto, LocalDateTime fecha) {
+        this.conductorId = conductorId;
+        this.viajeId = viajeId;
         this.monto = monto;
         this.concepto = concepto;
         this.fecha = fecha;
@@ -44,6 +54,14 @@ public class Adeudo {
 
     public void setConductorId(ObjectId conductorId) {
         this.conductorId = conductorId;
+    }
+
+    public ObjectId getViajeId() {
+        return viajeId;
+    }
+
+    public void setViajeId(ObjectId viajeId) {
+        this.viajeId = viajeId;
     }
 
     public int getMonto() {
@@ -83,6 +101,7 @@ public class Adeudo {
         return "Adeudo{" +
                 "id=" + id +
                 ", conductorId=" + conductorId +
+                ", viajeId=" + viajeId +
                 ", monto=" + monto +
                 ", concepto='" + concepto + '\'' +
                 ", fecha=" + fecha +
