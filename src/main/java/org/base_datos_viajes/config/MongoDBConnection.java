@@ -38,7 +38,7 @@ public class MongoDBConnection implements AutoCloseable {
             this.properties = loadProperties();
             this.mongoClient = createMongoClient();
             this.database = mongoClient.getDatabase(properties.getProperty(Constants.MONGODB_DATABASE_KEY));
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new DatabaseException(Constants.ERROR_CONNECTION_FAILED, e);
         }
     }

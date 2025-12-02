@@ -138,7 +138,7 @@ public class ConductorDAO implements GenericDAO<Conductor, ObjectId>, IConductor
             );
 
             return findById(id).orElse(null);
-        } catch (Exception e) {
+        } catch (DatabaseException e) {
             throw new DatabaseException("Error al actualizar parcialmente conductor", e);
         }
     }
@@ -160,7 +160,7 @@ public class ConductorDAO implements GenericDAO<Conductor, ObjectId>, IConductor
             ValidationUtil.requireNonNull(entity, "conductor");
             ValidationUtil.requireNonNull(entity.getId(), "id");
             return deleteById(entity.getId());
-        } catch (Exception e) {
+        } catch (DatabaseException e) {
             throw new DatabaseException("Error al eliminar conductor", e);
         }
     }
@@ -232,7 +232,7 @@ public class ConductorDAO implements GenericDAO<Conductor, ObjectId>, IConductor
 
             Conductor conductor = conductorOpt.get();
             return conductor.getVehiculos() != null ? conductor.getVehiculos() : Collections.emptyList();
-        } catch (Exception e) {
+        } catch (DatabaseException e) {
             throw new DatabaseException("Error al obtener vehículos del conductor", e);
         }
     }
