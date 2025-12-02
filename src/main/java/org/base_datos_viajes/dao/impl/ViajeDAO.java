@@ -217,4 +217,18 @@ public class ViajeDAO implements GenericDAO<Viaje, ObjectId>, IViajeDAO {
             throw new DatabaseException("Error al obtener paradas del viaje", e);
         }
     }
+
+    @Override
+    public void cambiarEstado(ObjectId id, boolean estado) throws DatabaseException {
+        ValidationUtil.requireNonNull(id, "ID de Viaje");
+
+        try {
+            Map<String, Object> updates = new java.util.HashMap<>();
+            updates.put("estaActivo", estado);
+            updatePartial(id, updates);
+
+        } catch (Exception e) {
+            throw new DatabaseException("Error al cambiar estado del viaje: " + e.getMessage(), e);
+        }
+    }
 }
