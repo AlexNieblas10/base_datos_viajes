@@ -2,6 +2,7 @@ package org.base_datos_viajes.dao.interfaces;
 
 import org.base_datos_viajes.exception.DatabaseException;
 import org.base_datos_viajes.model.Parada;
+import org.bson.types.ObjectId;
 
 import java.util.List;
 
@@ -19,4 +20,13 @@ public interface IViajeDAO {
      * @throws DatabaseException si ocurre un error en la base de datos
      */
     List<Parada> obtenerParadas(String viajeId) throws DatabaseException;
+
+    /**
+     * Cambia el estado activo de un viaje
+     *
+     * @param id ID del viaje
+     * @param estado nuevo estado (true = activo, false = inactivo)
+     * @throws DatabaseException si ocurre un error
+     */
+    void cambiarEstado(ObjectId id, boolean estado) throws DatabaseException;
 }

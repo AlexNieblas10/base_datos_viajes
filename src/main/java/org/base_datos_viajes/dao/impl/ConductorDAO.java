@@ -16,6 +16,7 @@ import org.base_datos_viajes.util.ValidationUtil;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -206,15 +207,18 @@ public class ConductorDAO implements GenericDAO<Conductor, ObjectId>, IConductor
     public List<Viaje> obtenerViajes(String conductorId) throws DatabaseException {
         try {
         ValidationUtil.validateObjectId(conductorId, "conductorId");
-        
-        //Consultar la coleccion de viajes por la referencia
+
         MongoCollection<Viaje> viajeCollection = MongoDBConnection.getInstance()
                 .getDatabase()
                 .getCollection(Constants.COLLECTION_VIAJES, Viaje.class);
 
-        // buscar todos los viajes donde conductorId coincida
-        return viajeCollection.find(Filters.eq("conductorId", new ObjectId(conductorId)))
-                .into(new ArrayList<>());
+        LocalDate hoy = LocalDate.now();
+
+        return viajeCollection.find(Filters.and(
+                Filters.eq("conductorId", new ObjectId(conductorId)),
+                Filters.eq("estaActivo", true),
+                Filters.gte("fecha", hoy)
+        )).into(new ArrayList<>());
         } catch (Exception e) {
             throw new DatabaseException("Error al obtener viajes del conductor", e);
         }

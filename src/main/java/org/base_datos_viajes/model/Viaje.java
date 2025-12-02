@@ -25,13 +25,17 @@ public class Viaje implements Serializable {
     private double precioTotal;
     private List<Parada> paradas;
 
-    private ObjectId conductorId; 
+    private ObjectId conductorId;
     private ObjectId vehiculoId;
+    private boolean estaActivo;
+    private int cantidadPasajeros;
     /**
      * Constructor sin argumentos requerido por MongoDB POJO codec.
      */
     public Viaje() {
         this.paradas = new ArrayList<>();
+        this.estaActivo = true;
+        this.cantidadPasajeros = 0;
     }
 
     /**
@@ -45,6 +49,8 @@ public class Viaje implements Serializable {
         this.hora = hora;
         this.precioTotal = precioTotal;
         this.paradas = new ArrayList<>();
+        this.estaActivo = true;
+        this.cantidadPasajeros = 0;
     }
 
     /**
@@ -58,6 +64,8 @@ public class Viaje implements Serializable {
         this.hora = hora;
         this.precioTotal = precioTotal;
         this.paradas = paradas != null ? paradas : new ArrayList<>();
+        this.estaActivo = true;
+        this.cantidadPasajeros = 0;
     }
 
     public ObjectId getId() {
@@ -139,8 +147,23 @@ public class Viaje implements Serializable {
     public void setVehiculoId(ObjectId vehiculoId) {
         this.vehiculoId = vehiculoId;
     }
-    
-    
+
+    public boolean isEstaActivo() {
+        return estaActivo;
+    }
+
+    public void setEstaActivo(boolean estaActivo) {
+        this.estaActivo = estaActivo;
+    }
+
+    public int getCantidadPasajeros() {
+        return cantidadPasajeros;
+    }
+
+    public void setCantidadPasajeros(int cantidadPasajeros) {
+        this.cantidadPasajeros = cantidadPasajeros;
+    }
+
 
     @Override
     public boolean equals(Object o) {
