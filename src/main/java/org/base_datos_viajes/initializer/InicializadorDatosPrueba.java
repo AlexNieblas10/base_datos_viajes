@@ -20,6 +20,9 @@ import org.base_datos_viajes.model.Vehiculo;
 import org.base_datos_viajes.model.Viaje;
 import org.bson.types.ObjectId;
 import java.util.Optional;
+import org.base_datos_viajes.dao.impl.PasajeroDAO;
+import org.base_datos_viajes.model.Pasajero;
+import org.base_datos_viajes.model.Reservacion;
 
 
 /**
@@ -32,12 +35,14 @@ public class InicializadorDatosPrueba {
 
     private final UsuarioDAO usuarioDAO;
     private final ConductorDAO conductorDAO;
+    private final PasajeroDAO pasajeroDAO;
     private final ViajeDAO viajeDAO;
     
    public InicializadorDatosPrueba() {
         this.usuarioDAO = new UsuarioDAO(); 
         this.conductorDAO = new ConductorDAO();
         this.viajeDAO = new ViajeDAO();
+        this.pasajeroDAO = new PasajeroDAO();
     }
     
     /**
@@ -138,6 +143,11 @@ public class InicializadorDatosPrueba {
             LOGGER.log(Level.INFO, "Viaje de prueba 2 insertado con ID: {0}", viaje2.getId());
 
             LOGGER.info("Insercion de datos de prueba finalizada con exito.");
+            
+            List<Reservacion> reservaciones = new ArrayList<>();
+            Pasajero pasajero1 = new Pasajero("Carlos Perez", 100.0, reservaciones);
+            usuario1.setPasajeroId(pasajero1.getId());
+            pasajeroDAO.save(pasajero1);
 
         } catch (DatabaseException | ValidationException e) {
             LOGGER.log(Level.SEVERE, "Error al insertar datos de prueba. Asegurate de que MongoDB este corriendo y la conexion sea correcta: " + e.getMessage(), e);
