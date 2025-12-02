@@ -13,7 +13,7 @@ import java.util.Optional;
  * @param <T>  Tipo de la entidad (POJO)
  * @param <ID> Tipo del identificador (generalmente String para MongoDB ObjectId)
  */
-public interface GenericDAO<T, ID> {
+public interface IGenericDAO<T, ID> {
 
     // ===== OPERACIONES CREATE =====
 

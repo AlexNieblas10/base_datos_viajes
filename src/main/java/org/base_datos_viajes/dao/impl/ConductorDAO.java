@@ -5,7 +5,6 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.DeleteResult;
 import org.base_datos_viajes.config.MongoDBConnection;
-import org.base_datos_viajes.dao.interfaces.GenericDAO;
 import org.base_datos_viajes.dao.interfaces.IConductorDAO;
 import org.base_datos_viajes.exception.DatabaseException;
 import org.base_datos_viajes.model.Conductor;
@@ -22,12 +21,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.base_datos_viajes.dao.interfaces.IGenericDAO;
 
 /**
  * DAO para la entidad Conductor.
  * Implementa todas las operaciones CRUD definidas en GenericDAO y métodos específicos de IConductorDAO.
  */
-public class ConductorDAO implements GenericDAO<Conductor, ObjectId>, IConductorDAO {
+public class ConductorDAO implements IGenericDAO<Conductor, ObjectId>, IConductorDAO {
 
     private final MongoCollection<Conductor> collection;
 

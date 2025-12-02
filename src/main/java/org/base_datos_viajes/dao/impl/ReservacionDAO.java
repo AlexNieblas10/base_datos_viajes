@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.base_datos_viajes.config.MongoDBConnection;
-import org.base_datos_viajes.dao.interfaces.GenericDAO;
 import org.base_datos_viajes.dao.interfaces.IReservacionDAO;
 import org.base_datos_viajes.exception.DatabaseException;
 import org.base_datos_viajes.model.Reservacion;
@@ -21,12 +20,13 @@ import org.base_datos_viajes.util.Constants;
 import org.base_datos_viajes.util.ValidationUtil;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
+import org.base_datos_viajes.dao.interfaces.IGenericDAO;
 
 /**
  *
  * @author Usuario
  */
-public class ReservacionDAO implements GenericDAO<Reservacion, ObjectId>, IReservacionDAO{
+public class ReservacionDAO implements IGenericDAO<Reservacion, ObjectId>, IReservacionDAO{
     
     private final MongoCollection<Reservacion> collection;
 

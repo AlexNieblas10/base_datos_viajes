@@ -5,7 +5,6 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.DeleteResult;
 import org.base_datos_viajes.config.MongoDBConnection;
-import org.base_datos_viajes.dao.interfaces.GenericDAO;
 import org.base_datos_viajes.exception.DatabaseException;
 import org.base_datos_viajes.model.Usuario;
 import org.base_datos_viajes.util.Constants;
@@ -17,12 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.base_datos_viajes.dao.interfaces.IGenericDAO;
 
 /**
  * DAO para la entidad Usuario.
  * Implementa todas las operaciones CRUD definidas en GenericDAO.
  */
-public class UsuarioDAO implements GenericDAO<Usuario, ObjectId> {
+public class UsuarioDAO implements IGenericDAO<Usuario, ObjectId> {
 
     private final MongoCollection<Usuario> collection;
 
@@ -134,7 +134,7 @@ public class UsuarioDAO implements GenericDAO<Usuario, ObjectId> {
             );
 
             return findById(id).orElse(null);
-        } catch (Exception e) {
+        } catch (DatabaseException e) {
             throw new DatabaseException("Error al actualizar parcialmente usuario", e);
         }
     }
@@ -156,7 +156,7 @@ public class UsuarioDAO implements GenericDAO<Usuario, ObjectId> {
             ValidationUtil.requireNonNull(entity, "usuario");
             ValidationUtil.requireNonNull(entity.getId(), "id");
             return deleteById(entity.getId());
-        } catch (Exception e) {
+        } catch (DatabaseException e) {
             throw new DatabaseException("Error al eliminar usuario", e);
         }
     }

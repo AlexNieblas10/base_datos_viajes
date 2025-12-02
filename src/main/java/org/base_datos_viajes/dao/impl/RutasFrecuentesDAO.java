@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.base_datos_viajes.config.MongoDBConnection;
-import org.base_datos_viajes.dao.interfaces.GenericDAO;
 import org.base_datos_viajes.exception.DatabaseException;
 import org.base_datos_viajes.model.Conductor;
 import org.base_datos_viajes.model.RutaFrecuente;
@@ -21,12 +20,13 @@ import org.base_datos_viajes.util.Constants;
 import org.base_datos_viajes.util.ValidationUtil;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
+import org.base_datos_viajes.dao.interfaces.IGenericDAO;
 
 /**
  *
  * @author adell
  */
-public class RutasFrecuentesDAO implements GenericDAO<RutaFrecuente, ObjectId> {
+public class RutasFrecuentesDAO implements IGenericDAO<RutaFrecuente, ObjectId> {
 
     private final MongoCollection<RutaFrecuente> collection;
 

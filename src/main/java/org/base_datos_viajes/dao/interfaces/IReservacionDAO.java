@@ -12,7 +12,7 @@ import org.bson.types.ObjectId;
  *
  * @author Usuario
  */
-public interface IReservacionDAO extends GenericDAO<Reservacion, ObjectId>{
+public interface IReservacionDAO extends IGenericDAO<Reservacion, ObjectId>{
     
     public List<Reservacion> encuentraPorIdViaje(ObjectId viajeId);
     

@@ -12,7 +12,7 @@ import org.bson.types.ObjectId;
  * Interfaz específica para operaciones del DAO de Conductor.
  * Define métodos adicionales más allá del GenericDAO para obtener datos embebidos.
  */
-public interface IConductorDAO extends GenericDAO<Conductor, ObjectId>{
+public interface IConductorDAO extends IGenericDAO<Conductor, ObjectId>{
 
     /**
      * Obtiene todos los viajes de un conductor específico.

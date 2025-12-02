@@ -14,7 +14,7 @@ import org.bson.types.ObjectId;
  *
  * @author Usuario
  */
-public interface IPasajeroDAO extends GenericDAO<Pasajero, ObjectId>{
+public interface IPasajeroDAO extends IGenericDAO<Pasajero, ObjectId>{
     
     /**
      * Obtiene todas las reservaciones de un pasajero específico.

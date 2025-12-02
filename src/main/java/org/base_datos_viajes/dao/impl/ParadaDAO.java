@@ -1,86 +1,86 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package org.base_datos_viajes.dao.impl;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.DeleteResult;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import org.base_datos_viajes.config.MongoDBConnection;
+import org.base_datos_viajes.dao.interfaces.IGenericDAO;
 import org.base_datos_viajes.exception.DatabaseException;
+import org.base_datos_viajes.model.Parada;
 import org.base_datos_viajes.util.Constants;
 import org.base_datos_viajes.util.ValidationUtil;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import org.base_datos_viajes.dao.interfaces.IPasajeroDAO;
-import org.base_datos_viajes.model.Pasajero;
-import org.base_datos_viajes.model.Reservacion;
-import org.base_datos_viajes.dao.interfaces.IGenericDAO;
-
 /**
- * DAO para la entidad Pasajero
- * Implementa todas las operaciones CRUD definidas en GenericDAO y métodos específicos de IPasajeroDAO.
+ *
+ * @author Usuario
  */
-public class PasajeroDAO implements IGenericDAO<Pasajero, ObjectId>, IPasajeroDAO {
+public class ParadaDAO implements IGenericDAO<Parada, ObjectId>{
+    private final MongoCollection<Parada> collection;
 
-    private final MongoCollection<Pasajero> collection;
-
-    public PasajeroDAO() {
+    public ParadaDAO() {
         this.collection = MongoDBConnection.getInstance()
                 .getDatabase()
-                .getCollection(Constants.COLLECTION_PASAJEROS, Pasajero.class);
+                .getCollection(Constants.COLLECTION_PARADAS, Parada.class);
     }
 
     @Override
-    public Pasajero save(Pasajero entity) throws DatabaseException {
+    public Parada save(Parada entity) throws DatabaseException {
         try {
-            ValidationUtil.requireNonNull(entity, "pasajero");
+            ValidationUtil.requireNonNull(entity, "parada");
             if (entity.getId() == null) {
                 entity.setId(new ObjectId());
             }
             collection.insertOne(entity);
             return entity;
         } catch (Exception e) {
-            throw new DatabaseException("Error al guardar pasajero", e);
+            throw new DatabaseException("Error al guardar parada", e);
         }
     }
 
     @Override
-    public List<Pasajero> saveAll(List<Pasajero> entities) throws DatabaseException {
+    public List<Parada> saveAll(List<Parada> entities) throws DatabaseException {
         try {
-            ValidationUtil.requireNonEmpty(entities, "pasajeros");
-            for (Pasajero pasajero : entities) {
-                if (pasajero.getId() == null) {
-                    pasajero.setId(new ObjectId());
+            ValidationUtil.requireNonEmpty(entities, "paradas");
+            for (Parada parada : entities) {
+                if (parada.getId() == null) {
+                   parada.setId(new ObjectId());
                 }
             }
             collection.insertMany(entities);
             return entities;
         } catch (Exception e) {
-            throw new DatabaseException("Error al guardar múltiples pasajeros", e);
+            throw new DatabaseException("Error al guardar múltiples paradas", e);
         }
     }
 
     @Override
-    public Optional<Pasajero> findById(ObjectId id) throws DatabaseException {
+    public Optional<Parada> findById(ObjectId id) throws DatabaseException {
         try {
             ValidationUtil.requireNonNull(id, "id");
-            Pasajero pasajero = collection.find(Filters.eq(Constants.FIELD_ID, id)).first();
-            return Optional.ofNullable(pasajero);
+            Parada parada = collection.find(Filters.eq(Constants.FIELD_ID, id)).first();
+            return Optional.ofNullable(parada);
         } catch (Exception e) {
-            throw new DatabaseException("Error al buscar pasajero por ID", e);
+            throw new DatabaseException("Error al buscar parada por ID", e);
         }
     }
 
     @Override
-    public List<Pasajero> findAll() throws DatabaseException {
+    public List<Parada> findAll() throws DatabaseException {
         try {
             return collection.find().into(new ArrayList<>());
         } catch (Exception e) {
-            throw new DatabaseException("Error al obtener todos los pasajeros", e);
+            throw new DatabaseException("Error al obtener todas las paradas", e);
         }
     }
 
@@ -89,7 +89,7 @@ public class PasajeroDAO implements IGenericDAO<Pasajero, ObjectId>, IPasajeroDA
         try {
             return collection.countDocuments();
         } catch (Exception e) {
-            throw new DatabaseException("Error al contar pasajeros", e);
+            throw new DatabaseException("Error al contar paradas", e);
         }
     }
 
@@ -99,25 +99,25 @@ public class PasajeroDAO implements IGenericDAO<Pasajero, ObjectId>, IPasajeroDA
             ValidationUtil.requireNonNull(id, "id");
             return collection.countDocuments(Filters.eq(Constants.FIELD_ID, id)) > 0;
         } catch (Exception e) {
-            throw new DatabaseException("Error al verificar existencia de pasajero", e);
+            throw new DatabaseException("Error al verificar existencia de parada", e);
         }
     }
 
     @Override
-    public Pasajero update(Pasajero entity) throws DatabaseException {
+    public Parada update(Parada entity) throws DatabaseException {
         try {
-            ValidationUtil.requireNonNull(entity, "pasajero");
+            ValidationUtil.requireNonNull(entity, "parada");
             ValidationUtil.requireNonNull(entity.getId(), "id");
 
             collection.replaceOne(Filters.eq(Constants.FIELD_ID, entity.getId()), entity);
             return entity;
         } catch (Exception e) {
-            throw new DatabaseException("Error al actualizar pasajero", e);
+            throw new DatabaseException("Error al actualizar parada", e);
         }
     }
 
     @Override
-    public Pasajero updatePartial(ObjectId id, Map<String, Object> updates) throws DatabaseException {
+    public Parada updatePartial(ObjectId id, Map<String, Object> updates) throws DatabaseException {
         try {
             ValidationUtil.requireNonNull(id, "id");
             ValidationUtil.requireNonNull(updates, "updates");
@@ -137,7 +137,7 @@ public class PasajeroDAO implements IGenericDAO<Pasajero, ObjectId>, IPasajeroDA
 
             return findById(id).orElse(null);
         } catch (DatabaseException e) {
-            throw new DatabaseException("Error al actualizar parcialmente pasajero", e);
+            throw new DatabaseException("Error al actualizar parcialmente parada", e);
         }
     }
 
@@ -148,18 +148,18 @@ public class PasajeroDAO implements IGenericDAO<Pasajero, ObjectId>, IPasajeroDA
             DeleteResult result = collection.deleteOne(Filters.eq(Constants.FIELD_ID, id));
             return result.getDeletedCount() > 0;
         } catch (Exception e) {
-            throw new DatabaseException("Error al eliminar pasajero", e);
+            throw new DatabaseException("Error al eliminar parada", e);
         }
     }
 
     @Override
-    public boolean delete(Pasajero entity) throws DatabaseException {
+    public boolean delete(Parada entity) throws DatabaseException {
         try {
-            ValidationUtil.requireNonNull(entity, "pasajero");
+            ValidationUtil.requireNonNull(entity, "parada");
             ValidationUtil.requireNonNull(entity.getId(), "id");
             return deleteById(entity.getId());
         } catch (DatabaseException e) {
-            throw new DatabaseException("Error al eliminar pasajero", e);
+            throw new DatabaseException("Error al eliminar parada", e);
         }
     }
 
@@ -169,22 +169,22 @@ public class PasajeroDAO implements IGenericDAO<Pasajero, ObjectId>, IPasajeroDA
             DeleteResult result = collection.deleteMany(Filters.empty());
             return result.getDeletedCount();
         } catch (Exception e) {
-            throw new DatabaseException("Error al eliminar todos los pasajeros", e);
+            throw new DatabaseException("Error al eliminar todas las paradas", e);
         }
     }
 
     @Override
-    public List<Pasajero> findByField(String fieldName, Object value) throws DatabaseException {
+    public List<Parada> findByField(String fieldName, Object value) throws DatabaseException {
         try {
             ValidationUtil.requireNonEmpty(fieldName, "fieldName");
             return collection.find(Filters.eq(fieldName, value)).into(new ArrayList<>());
         } catch (Exception e) {
-            throw new DatabaseException("Error al buscar pasajeros por campo", e);
+            throw new DatabaseException("Error al buscar paradas por campo", e);
         }
     }
 
     @Override
-    public List<Pasajero> findWithPagination(int page, int pageSize) throws DatabaseException {
+    public List<Parada> findWithPagination(int page, int pageSize) throws DatabaseException {
         try {
             ValidationUtil.validatePositive(page, "page");
             ValidationUtil.validatePositive(pageSize, "pageSize");
@@ -194,27 +194,7 @@ public class PasajeroDAO implements IGenericDAO<Pasajero, ObjectId>, IPasajeroDA
                     .limit(pageSize)
                     .into(new ArrayList<>());
         } catch (Exception e) {
-            throw new DatabaseException("Error al obtener pasajeros con paginación", e);
-        }
-    }
-
-    // ===== Métodos específicos de IPasajeroDAO =====
-
-    @Override
-    public List<Reservacion> obtenerReservaciones(String pasajeroId) throws DatabaseException {
-        try {
-        ValidationUtil.validateObjectId(pasajeroId, "pasajeroId");
-        
-        //Consultar la coleccion de reservaciones por la referencia
-        MongoCollection<Reservacion> reservacionCollection = MongoDBConnection.getInstance()
-                .getDatabase()
-                .getCollection(Constants.COLLECTION_RESERVACIONES, Reservacion.class);
-
-        // buscar todas las reservaciones donde pasajeroId coincida
-        return reservacionCollection.find(Filters.eq("pasajeroId", new ObjectId(pasajeroId)))
-                .into(new ArrayList<>());
-        } catch (Exception e) {
-            throw new DatabaseException("Error al obtener las reservaciones del pasajero", e);
+            throw new DatabaseException("Error al obtener paradas con paginación", e);
         }
     }
 
