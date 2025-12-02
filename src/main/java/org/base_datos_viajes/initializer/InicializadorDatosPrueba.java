@@ -88,7 +88,7 @@ public class InicializadorDatosPrueba {
             // 4. Crear Paradas y Viajes
             
             // viaje1: Obregon a Navojoa ---
-            LocalDate fechaViaje1 = LocalDate.now().plusDays(1);
+            LocalDate fechaViaje1 = LocalDate.now().plusDays(3);
             LocalTime horaViaje1 = LocalTime.of(10, 30);
             
             // Constructor Parada: Parada(String direccion, double precio)
@@ -100,21 +100,23 @@ public class InicializadorDatosPrueba {
 
             Viaje viaje1 = new Viaje(
                 "Viaje a Navojoa",
-                "Navojoa",        
-                "Obregon",        
-                fechaViaje1, 
+                "Navojoa",
+                "Obregon",
+                fechaViaje1,
                 horaViaje1,
-                250.0              
+                250.0
             );
-  
+
             viaje1.setConductorId(conductor1.getId());
             viaje1.setVehiculoId(vehiculoId1);
             viaje1.setParadas(paradasViaje1);
+            viaje1.setEstaActivo(true);
+            viaje1.setCantidadPasajeros(2);  // 2 pasajeros de prueba
             viajeDAO.save(viaje1); 
             LOGGER.log(Level.INFO, "Viaje de prueba 1 insertado con ID: {0}", viaje1.getId());
             
             // viaje 2: Obregon a Esperanza ---
-            LocalDate fechaViaje2 = LocalDate.now().plusDays(2);
+            LocalDate fechaViaje2 = LocalDate.now().plusDays(5);
             LocalTime horaViaje2 = LocalTime.of(14, 0);
             
             List<Parada> paradasViaje2 = new ArrayList<>();
@@ -124,16 +126,18 @@ public class InicializadorDatosPrueba {
 
             Viaje viaje2 = new Viaje(
                 "Viaje a Esperanza",
-                "Esperanza", 
-                "Obregon", 
-                fechaViaje2, 
+                "Esperanza",
+                "Obregon",
+                fechaViaje2,
                 horaViaje2,
                 70.0
             );
-     
+
             viaje2.setConductorId(conductor1.getId());
-            viaje2.setVehiculoId(vehiculoId2); 
+            viaje2.setVehiculoId(vehiculoId2);
             viaje2.setParadas(paradasViaje2);
+            viaje2.setEstaActivo(true);
+            viaje2.setCantidadPasajeros(3);  // 3 pasajeros de prueba
             viajeDAO.save(viaje2);
             LOGGER.log(Level.INFO, "Viaje de prueba 2 insertado con ID: {0}", viaje2.getId());
 
