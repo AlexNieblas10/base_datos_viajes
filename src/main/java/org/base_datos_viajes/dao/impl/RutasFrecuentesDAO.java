@@ -21,12 +21,13 @@ import org.base_datos_viajes.util.ValidationUtil;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.base_datos_viajes.dao.interfaces.IGenericDAO;
+import org.base_datos_viajes.dao.interfaces.IRutaFrecuenteDAO;
 
 /**
  *
  * @author adell
  */
-public class RutasFrecuentesDAO implements IGenericDAO<RutaFrecuente, ObjectId> {
+public class RutasFrecuentesDAO implements IGenericDAO<RutaFrecuente, ObjectId>, IRutaFrecuenteDAO {
 
     private final MongoCollection<RutaFrecuente> collection;
 
@@ -83,7 +84,7 @@ public class RutasFrecuentesDAO implements IGenericDAO<RutaFrecuente, ObjectId> 
         try {
             return collection.find().into(new ArrayList<>());
         } catch (Exception e) {
-            throw new DatabaseException("Error al obtener todos los conductores", e);
+            throw new DatabaseException("Error al obtener todos las rutas", e);
         }
     }
 
@@ -92,7 +93,7 @@ public class RutasFrecuentesDAO implements IGenericDAO<RutaFrecuente, ObjectId> 
         try {
             return collection.countDocuments();
         } catch (Exception e) {
-            throw new DatabaseException("Error al contar conductores", e);
+            throw new DatabaseException("Error al contar rutas", e);
         }
     }
 
