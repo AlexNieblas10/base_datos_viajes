@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Camila Zubia 00000244825
  */
-public interface IAdeudoDAO extends GenericDAO<Adeudo, ObjectId> {
+public interface IAdeudoDAO extends IGenericDAO<Adeudo, ObjectId> {
 
     /**
      * Obtiene todos los adeudos de un conductor específico

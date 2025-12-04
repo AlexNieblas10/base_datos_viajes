@@ -5,7 +5,6 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.DeleteResult;
 import org.base_datos_viajes.config.MongoDBConnection;
-import org.base_datos_viajes.dao.interfaces.GenericDAO;
 import org.base_datos_viajes.dao.interfaces.IViajeDAO;
 import org.base_datos_viajes.exception.DatabaseException;
 import org.base_datos_viajes.model.Parada;
@@ -20,12 +19,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.base_datos_viajes.dao.interfaces.IGenericDAO;
 
 /**
  * DAO para la entidad Viaje.
  * Implementa todas las operaciones CRUD definidas en GenericDAO y métodos específicos de IViajeDAO.
  */
-public class ViajeDAO implements GenericDAO<Viaje, ObjectId>, IViajeDAO {
+public class ViajeDAO implements IGenericDAO<Viaje, ObjectId>, IViajeDAO {
 
     private final MongoCollection<Viaje> collection;
 
@@ -227,7 +227,7 @@ public class ViajeDAO implements GenericDAO<Viaje, ObjectId>, IViajeDAO {
             updates.put("estaActivo", estado);
             updatePartial(id, updates);
 
-        } catch (Exception e) {
+        } catch (DatabaseException e) {
             throw new DatabaseException("Error al cambiar estado del viaje: " + e.getMessage(), e);
         }
     }

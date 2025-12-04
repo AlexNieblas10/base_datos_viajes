@@ -20,9 +20,10 @@ public class Reservacion implements Serializable {
     private ObjectId id;
     private ObjectId viajeId;
     private ObjectId paradaId;
+    private ObjectId pasajeroId;
     private double precioTotal;
     private Estatus estatus;
-    private Duration tiempoRestante;
+    private Long tiempoRestante;
     
     /**
      * Constructor sin argumentos requerido por MongoDB POJO codec.
@@ -36,7 +37,7 @@ public class Reservacion implements Serializable {
      * @param tiempo
      * @param estatus
      */
-    public Reservacion(double precio, Duration tiempo, Estatus estatus) {
+    public Reservacion(double precio, Long tiempo, Estatus estatus) {
         this.precioTotal = precio;
         this.tiempoRestante = tiempo;
         this.estatus = estatus;
@@ -66,11 +67,11 @@ public class Reservacion implements Serializable {
         this.estatus = estatus;
     }
 
-    public Duration getTiempoRestante() {
+    public Long getTiempoRestante() {
         return tiempoRestante;
     }
 
-    public void setTiempoRestante(Duration tiempoRestante) {
+    public void setTiempoRestante(Long tiempoRestante) {
         this.tiempoRestante = tiempoRestante;
     }
 
@@ -88,6 +89,14 @@ public class Reservacion implements Serializable {
 
     public void setParadaId(ObjectId paradaId) {
         this.paradaId = paradaId;
+    }
+
+    public ObjectId getPasajeroId() {
+        return pasajeroId;
+    }
+
+    public void setPasajeroId(ObjectId pasajeroId) {
+        this.pasajeroId = pasajeroId;
     }
 
     @Override

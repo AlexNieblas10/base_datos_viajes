@@ -2,6 +2,7 @@ package org.base_datos_viajes.model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import org.bson.types.ObjectId;
 
 /**
  * POJO representando una parada en un viaje.
@@ -11,6 +12,7 @@ public class Parada implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private ObjectId Id;
     private String direccion;
     private double precio;
 
@@ -22,6 +24,8 @@ public class Parada implements Serializable {
 
     /**
      * Constructor con parámetros.
+     * @param direccion
+     * @param precio
      */
     public Parada(String direccion, double precio) {
         this.direccion = direccion;
@@ -42,6 +46,14 @@ public class Parada implements Serializable {
 
     public void setPrecio(double precio) {
         this.precio = precio;
+    }
+
+    public ObjectId getId() {
+        return Id;
+    }
+
+    public void setId(ObjectId Id) {
+        this.Id = Id;
     }
 
     @Override

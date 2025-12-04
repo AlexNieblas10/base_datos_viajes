@@ -14,13 +14,13 @@ import org.bson.types.ObjectId;
  *
  * @author Usuario
  */
-public interface IPasajeroDAO extends GenericDAO<Pasajero, ObjectId>{
+public interface IPasajeroDAO extends IGenericDAO<Pasajero, ObjectId>{
     
     /**
      * Obtiene todas las reservaciones de un pasajero específico.
      *
      * @param pasajeroId
-     * @return Lista de viajes del conductor
+     * @return Lista de reservaciones del pasajero
      * @throws DatabaseException si ocurre un error en la base de datos
      */
     List<Reservacion> obtenerReservaciones(String pasajeroId) throws DatabaseException;

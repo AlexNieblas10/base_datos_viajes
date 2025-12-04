@@ -9,11 +9,11 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.DeleteResult;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.base_datos_viajes.config.MongoDBConnection;
-import org.base_datos_viajes.dao.interfaces.GenericDAO;
 import org.base_datos_viajes.exception.DatabaseException;
 import org.base_datos_viajes.model.Conductor;
 import org.base_datos_viajes.model.RutaFrecuente;
@@ -21,12 +21,15 @@ import org.base_datos_viajes.util.Constants;
 import org.base_datos_viajes.util.ValidationUtil;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
+import org.base_datos_viajes.dao.interfaces.IGenericDAO;
+import org.base_datos_viajes.dao.interfaces.IRutaFrecuenteDAO;
+import org.base_datos_viajes.model.Parada;
 
 /**
  *
  * @author adell
  */
-public class RutasFrecuentesDAO implements GenericDAO<RutaFrecuente, ObjectId> {
+public class RutasFrecuentesDAO implements IGenericDAO<RutaFrecuente, ObjectId>, IRutaFrecuenteDAO {
 
     private final MongoCollection<RutaFrecuente> collection;
 
@@ -83,7 +86,7 @@ public class RutasFrecuentesDAO implements GenericDAO<RutaFrecuente, ObjectId> {
         try {
             return collection.find().into(new ArrayList<>());
         } catch (Exception e) {
-            throw new DatabaseException("Error al obtener todos los conductores", e);
+            throw new DatabaseException("Error al obtener todos las rutas", e);
         }
     }
 
@@ -92,7 +95,7 @@ public class RutasFrecuentesDAO implements GenericDAO<RutaFrecuente, ObjectId> {
         try {
             return collection.countDocuments();
         } catch (Exception e) {
-            throw new DatabaseException("Error al contar conductores", e);
+            throw new DatabaseException("Error al contar rutas", e);
         }
     }
 
@@ -200,10 +203,24 @@ public class RutasFrecuentesDAO implements GenericDAO<RutaFrecuente, ObjectId> {
             throw new DatabaseException("Error al eliminar todos los conductores", e);
         }
     }
-    
+
     // Metodos especificos que de IRutaFrecuenteDAO
-    
-    //Seran obtener RutaFrecuente, Guardar Ruta Frecuente, Eliminar Ruta frecuente, ¿Editar ruta frecuente tal vez?
-    
-    
+ 
+    @Override
+    public List<Parada> obtenerParadasRuta(String rutaId) throws DatabaseException {
+        try {
+            ValidationUtil.validateObjectId(rutaId, "viajeId");
+            Optional<RutaFrecuente> rutaOpt = findById(new ObjectId(rutaId));
+
+            if (rutaOpt.isEmpty()) {
+                return Collections.emptyList();
+            }
+
+            RutaFrecuente ruta = rutaOpt.get();
+            return ruta.getParadas() != null ? ruta.getParadas() : Collections.emptyList();
+        } catch (DatabaseException e) {
+            throw new DatabaseException("Error al obtener paradas de la ruta", e);
+        }
+    }
+
 }
