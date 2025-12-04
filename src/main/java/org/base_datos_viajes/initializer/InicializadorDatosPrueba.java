@@ -22,7 +22,9 @@ import org.bson.types.ObjectId;
 import java.util.Optional;
 import org.base_datos_viajes.dao.impl.ParadaDAO;
 import org.base_datos_viajes.dao.impl.PasajeroDAO;
+import org.base_datos_viajes.dao.impl.RutasFrecuentesDAO;
 import org.base_datos_viajes.model.Pasajero;
+import org.base_datos_viajes.model.RutaFrecuente;
 
 
 /**
@@ -38,6 +40,7 @@ public class InicializadorDatosPrueba {
     private final PasajeroDAO pasajeroDAO;
     private final ParadaDAO paradaDAO;
     private final ViajeDAO viajeDAO;
+    private final RutasFrecuentesDAO rutaDAO;
     
    public InicializadorDatosPrueba() {
         this.usuarioDAO = new UsuarioDAO(); 
@@ -45,6 +48,7 @@ public class InicializadorDatosPrueba {
         this.viajeDAO = new ViajeDAO();
         this.pasajeroDAO = new PasajeroDAO();
         this.paradaDAO = new ParadaDAO();
+        this.rutaDAO = new RutasFrecuentesDAO();
     }
     
     /**
@@ -161,7 +165,10 @@ public class InicializadorDatosPrueba {
 
             LOGGER.info("Insercion de datos de prueba finalizada con exito.");
             
-
+            RutaFrecuente ruta1 = new RutaFrecuente();
+            rutaDAO.save(ruta1);
+            
+            
         } catch (DatabaseException | ValidationException e) {
             LOGGER.log(Level.SEVERE, "Error al insertar datos de prueba. Asegurate de que MongoDB este corriendo y la conexion sea correcta: " + e.getMessage(), e);
         }

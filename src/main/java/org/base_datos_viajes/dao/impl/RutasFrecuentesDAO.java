@@ -9,6 +9,7 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.DeleteResult;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -22,6 +23,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.base_datos_viajes.dao.interfaces.IGenericDAO;
 import org.base_datos_viajes.dao.interfaces.IRutaFrecuenteDAO;
+import org.base_datos_viajes.model.Parada;
 
 /**
  *
@@ -204,7 +206,28 @@ public class RutasFrecuentesDAO implements IGenericDAO<RutaFrecuente, ObjectId>,
     
     // Metodos especificos que de IRutaFrecuenteDAO
     
-    //Seran obtener RutaFrecuente, Guardar Ruta Frecuente, Eliminar Ruta frecuente, ¿Editar ruta frecuente tal vez?
+    //Seran obtener RutaFrecuente, Guardar Ruta Frecuente, Eliminar Ruta frecuente
+     @Override
+    public List<Parada> obtenerParadasRuta(String rutaId) throws DatabaseException {
+        try {
+            ValidationUtil.validateObjectId(rutaId, "viajeId");
+            Optional<RutaFrecuente> rutaOpt = findById(new ObjectId(rutaId));
+
+            if (rutaOpt.isEmpty()) {
+                return Collections.emptyList();
+            }
+
+            RutaFrecuente ruta = rutaOpt.get();
+            return ruta.getParadas() != null ? ruta.getParadas() : Collections.emptyList();
+        } catch (DatabaseException e) {
+            throw new DatabaseException("Error al obtener paradas de la ruta", e);
+        }
+    }
     
+    public List<RutaFrecuente> ObtenerRutasPorConductor () throws DatabaseException{
+        
+        
+        return null;
+    }
     
 }

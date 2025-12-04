@@ -5,6 +5,7 @@
 package org.base_datos_viajes.dao.interfaces;
 
 import java.util.List;
+import org.base_datos_viajes.model.Parada;
 import org.base_datos_viajes.model.RutaFrecuente;
 
 /**
@@ -18,6 +19,8 @@ public interface IRutaFrecuenteDAO {
     public List<RutaFrecuente> findAll();
 
     public List<RutaFrecuente> findByField(String fieldName, Object value);
-    
-     public boolean delete(RutaFrecuente entity);
+
+    public boolean delete(RutaFrecuente entity);
+
+    public List<Parada> obtenerParadasRuta(String rutaId);
 }
