@@ -106,15 +106,11 @@ public class InicializadorDatosPrueba {
             LocalTime horaViaje1 = LocalTime.of(10, 30);
             
             // Constructor Parada: Parada(String direccion, double precio)
-            Parada p1v1 = new Parada("Obregon", 250.0);
             Parada p2v1 = new Parada("Tutuli", 50.0);
             Parada p3v1 = new Parada("ITSON", 30.0);
-            Parada p4v1 = new Parada("Navojoa", 0.0);
             List<Parada> paradasViaje1 = new ArrayList<>();
-            paradasViaje1.add(p1v1);
             paradasViaje1.add(p2v1);
             paradasViaje1.add(p3v1);
-            paradasViaje1.add(p4v1); 
             paradaDAO.saveAll(paradasViaje1);
 
             Viaje viaje1 = new Viaje(
@@ -137,13 +133,9 @@ public class InicializadorDatosPrueba {
             // viaje 2: Obregon a Esperanza ---
             LocalDate fechaViaje2 = LocalDate.now().plusDays(5);
             LocalTime horaViaje2 = LocalTime.of(14, 0);
-            Parada p1v2 = new Parada("Obregon", 70.0);
-            Parada p2v2 = new Parada("Central Camiones", 40.0);
-            Parada p3v2 = new Parada("Esperanza", 0.0);
+            Parada pv2 = new Parada("Central Camiones", 40.0);
             List<Parada> paradasViaje2 = new ArrayList<>();
-            paradasViaje2.add(p1v2);
-            paradasViaje2.add(p2v2);
-            paradasViaje2.add(p3v2);
+            paradasViaje2.add(pv2);
             paradaDAO.saveAll(paradasViaje2);
 
             Viaje viaje2 = new Viaje(
@@ -177,7 +169,6 @@ public class InicializadorDatosPrueba {
    public static void inicializarSiEsNecesario() {
     InicializadorDatosPrueba initializer = new InicializadorDatosPrueba();
     try {
-        // Verifica si ya existen usuarios en la BD
         if (initializer.usuarioDAO.count() == 0) {
             initializer.agregarDatosPrueba();
         } else {
