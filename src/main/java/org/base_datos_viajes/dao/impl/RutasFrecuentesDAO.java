@@ -203,11 +203,10 @@ public class RutasFrecuentesDAO implements IGenericDAO<RutaFrecuente, ObjectId>,
             throw new DatabaseException("Error al eliminar todos los conductores", e);
         }
     }
-    
+
     // Metodos especificos que de IRutaFrecuenteDAO
-    
-    //Seran obtener RutaFrecuente, Guardar Ruta Frecuente, Eliminar Ruta frecuente
-     @Override
+ 
+    @Override
     public List<Parada> obtenerParadasRuta(String rutaId) throws DatabaseException {
         try {
             ValidationUtil.validateObjectId(rutaId, "viajeId");
@@ -223,11 +222,5 @@ public class RutasFrecuentesDAO implements IGenericDAO<RutaFrecuente, ObjectId>,
             throw new DatabaseException("Error al obtener paradas de la ruta", e);
         }
     }
-    
-    public List<RutaFrecuente> ObtenerRutasPorConductor () throws DatabaseException{
-        
-        
-        return null;
-    }
-    
+
 }

@@ -6,6 +6,7 @@ import org.base_datos_viajes.model.Viaje;
 
 import java.util.List;
 import org.base_datos_viajes.model.Conductor;
+import org.base_datos_viajes.model.RutaFrecuente;
 import org.bson.types.ObjectId;
 
 /**
@@ -31,4 +32,7 @@ public interface IConductorDAO extends IGenericDAO<Conductor, ObjectId>{
      * @throws DatabaseException si ocurre un error en la base de datos
      */
     List<Vehiculo> obtenerVehiculos(String conductorId) throws DatabaseException;
+    
+    public List<RutaFrecuente> obtenerRutasFrecuentes(String conductorId) throws DatabaseException;
+    
 }
