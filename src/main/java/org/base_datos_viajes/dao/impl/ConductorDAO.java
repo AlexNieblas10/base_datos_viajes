@@ -22,10 +22,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.base_datos_viajes.dao.interfaces.IGenericDAO;
+import org.base_datos_viajes.model.RutaFrecuente;
 
 /**
- * DAO para la entidad Conductor.
- * Implementa todas las operaciones CRUD definidas en GenericDAO y métodos específicos de IConductorDAO.
+ * DAO para la entidad Conductor. Implementa todas las operaciones CRUD
+ * definidas en GenericDAO y métodos específicos de IConductorDAO.
  */
 public class ConductorDAO implements IGenericDAO<Conductor, ObjectId>, IConductorDAO {
 
@@ -202,23 +203,22 @@ public class ConductorDAO implements IGenericDAO<Conductor, ObjectId>, IConducto
     }
 
     // ===== Métodos específicos de IConductorDAO =====
-
     @Override
     public List<Viaje> obtenerViajes(String conductorId) throws DatabaseException {
         try {
-        ValidationUtil.validateObjectId(conductorId, "conductorId");
+            ValidationUtil.validateObjectId(conductorId, "conductorId");
 
-        MongoCollection<Viaje> viajeCollection = MongoDBConnection.getInstance()
-                .getDatabase()
-                .getCollection(Constants.COLLECTION_VIAJES, Viaje.class);
+            MongoCollection<Viaje> viajeCollection = MongoDBConnection.getInstance()
+                    .getDatabase()
+                    .getCollection(Constants.COLLECTION_VIAJES, Viaje.class);
 
-        LocalDate hoy = LocalDate.now();
+            LocalDate hoy = LocalDate.now();
 
-        return viajeCollection.find(Filters.and(
-                Filters.eq("conductorId", new ObjectId(conductorId)),
-                Filters.eq("estaActivo", true),
-                Filters.gte("fecha", hoy)
-        )).into(new ArrayList<>());
+            return viajeCollection.find(Filters.and(
+                    Filters.eq("conductorId", new ObjectId(conductorId)),
+                    Filters.eq("estaActivo", true),
+                    Filters.gte("fecha", hoy)
+            )).into(new ArrayList<>());
         } catch (Exception e) {
             throw new DatabaseException("Error al obtener viajes del conductor", e);
         }
@@ -238,6 +238,22 @@ public class ConductorDAO implements IGenericDAO<Conductor, ObjectId>, IConducto
             return conductor.getVehiculos() != null ? conductor.getVehiculos() : Collections.emptyList();
         } catch (DatabaseException e) {
             throw new DatabaseException("Error al obtener vehículos del conductor", e);
+        }
+    }
+
+    public List<RutaFrecuente> obtenerRutasFrecuentes(String conductorId) throws DatabaseException {
+        try {
+            ValidationUtil.validateObjectId(conductorId, "conductorId");
+
+            MongoCollection<RutaFrecuente> viajeCollection = MongoDBConnection.getInstance()
+                    .getDatabase()
+                    .getCollection(Constants.COLLECTION_RUTAS, RutaFrecuente.class);
+
+            return viajeCollection.find(Filters.and(
+                    Filters.eq("conductorId", new ObjectId(conductorId))
+            )).into(new ArrayList<>());
+        } catch (Exception e) {
+            throw new DatabaseException("Error al obtener Rutas  del conductor", e);
         }
     }
 }
