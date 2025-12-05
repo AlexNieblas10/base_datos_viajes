@@ -241,6 +241,7 @@ public class ConductorDAO implements IGenericDAO<Conductor, ObjectId>, IConducto
         }
     }
 
+    @Override
     public List<RutaFrecuente> obtenerRutasFrecuentes(String conductorId) throws DatabaseException {
         try {
             ValidationUtil.validateObjectId(conductorId, "conductorId");
