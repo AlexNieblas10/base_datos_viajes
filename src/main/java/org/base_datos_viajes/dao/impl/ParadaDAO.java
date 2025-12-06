@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 import org.base_datos_viajes.config.MongoDBConnection;
 import org.base_datos_viajes.dao.interfaces.IGenericDAO;
+import org.base_datos_viajes.dao.interfaces.IParadaDAO;
 import org.base_datos_viajes.exception.DatabaseException;
 import org.base_datos_viajes.model.Parada;
 import org.base_datos_viajes.util.Constants;
@@ -25,7 +26,7 @@ import org.bson.types.ObjectId;
  *
  * @author Usuario
  */
-public class ParadaDAO implements IGenericDAO<Parada, ObjectId>{
+public class ParadaDAO implements IGenericDAO<Parada, ObjectId>, IParadaDAO{
     private final MongoCollection<Parada> collection;
 
     public ParadaDAO() {

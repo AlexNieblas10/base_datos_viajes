@@ -57,7 +57,7 @@ public class ViajeDAO implements IGenericDAO<Viaje, ObjectId>, IViajeDAO {
             if (entity.getId() == null) {
                 entity.setId(new ObjectId());
             }
-
+            
             collection.insertOne(entity);
             return entity;
 
