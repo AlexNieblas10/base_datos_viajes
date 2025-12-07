@@ -23,6 +23,7 @@ public final class Constants {
     public static final String COLLECTION_ADEUDOS = "adeudos";
     public static final String COLLECTION_RESERVACIONES = "reservaciones";
     public static final String COLLECTION_RUTAS = "RutasFrecuentes";
+    public static final String COLLECTION_PROPIETARIO= "Propietario";
 
     // ===== NOMBRES DE CAMPOS COMUNES =====
     public static final String FIELD_ID = "_id";
