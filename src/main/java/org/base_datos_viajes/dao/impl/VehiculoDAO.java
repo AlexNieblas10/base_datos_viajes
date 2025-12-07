@@ -14,9 +14,10 @@ import java.util.Map;
 import java.util.Optional;
 import org.base_datos_viajes.config.MongoDBConnection;
 import org.base_datos_viajes.dao.interfaces.IGenericDAO;
-import org.base_datos_viajes.dao.interfaces.IPropietarioDAO;
+import org.base_datos_viajes.dao.interfaces.IVehiculoDAO;
 import org.base_datos_viajes.exception.DatabaseException;
-import org.base_datos_viajes.model.Propietario;
+import org.base_datos_viajes.model.Vehiculo;
+import org.base_datos_viajes.model.Viaje;
 import org.base_datos_viajes.util.Constants;
 import org.base_datos_viajes.util.ValidationUtil;
 import org.bson.conversions.Bson;
@@ -26,61 +27,65 @@ import org.bson.types.ObjectId;
  *
  * @author adell
  */
-public class PropietarioDAO implements IGenericDAO<Propietario, ObjectId>, IPropietarioDAO {
+public class VehiculoDAO implements IGenericDAO<Vehiculo, ObjectId>, IVehiculoDAO {
 
-    private final MongoCollection<Propietario> collection;
+    private final MongoCollection<Vehiculo> collection;
 
-    public PropietarioDAO() {
-        this.collection = MongoDBConnection.getInstance().getDatabase().getCollection(Constants.COLLECTION_PROPIETARIO, Propietario.class);
+    public VehiculoDAO() {
+        this.collection = MongoDBConnection.getInstance()
+                .getDatabase()
+                .getCollection(Constants.COLLECTION_VEHICULOS, Vehiculo.class);
     }
 
     @Override
-    public Propietario save(Propietario entity) throws DatabaseException {
+    public Vehiculo save(Vehiculo entity) throws DatabaseException {
         try {
-            ValidationUtil.requireNonNull(entity, "Propietario");
+            ValidationUtil.requireNonNull(entity, "Vehiculo");
             if (entity.getId() == null) {
                 entity.setId(new ObjectId());
             }
             collection.insertOne(entity);
             return entity;
         } catch (Exception e) {
-            throw new DatabaseException("Error al guardar Propietario", e);
+            throw new DatabaseException("Error al guardar Vehiculo", e);
         }
+
     }
 
     @Override
-    public List<Propietario> saveAll(List<Propietario> entities) throws DatabaseException {
+    public List<Vehiculo> saveAll(List<Vehiculo> entities) throws DatabaseException {
         try {
-            ValidationUtil.requireNonEmpty(entities, "Propietario");
-            for (Propietario Propietario : entities) {
-                if (Propietario.getId() == null) {
-                    Propietario.setId(new ObjectId());
+            ValidationUtil.requireNonEmpty(entities, "Vehiculo");
+            for (Vehiculo vehiculo : entities) {
+                if (vehiculo.getId() == null) {
+                    vehiculo.setId(new ObjectId());
                 }
             }
             collection.insertMany(entities);
             return entities;
         } catch (Exception e) {
-            throw new DatabaseException("Error al guardar múltiples Propietarios", e);
+            throw new DatabaseException("Error al guardar múltiples vehiculos", e);
         }
+
     }
 
     @Override
-    public Optional<Propietario> findById(ObjectId id) throws DatabaseException {
+    public Optional<Vehiculo> findById(ObjectId id) throws DatabaseException {
         try {
             ValidationUtil.requireNonNull(id, "id");
-            Propietario Propietario = collection.find(Filters.eq(Constants.FIELD_ID, id)).first();
-            return Optional.ofNullable(Propietario);
+            Vehiculo vehiculo = collection.find(Filters.eq(Constants.FIELD_ID, id)).first();
+            return Optional.ofNullable(vehiculo);
         } catch (Exception e) {
-            throw new DatabaseException("Error al buscar Propietario por ID", e);
+            throw new DatabaseException("Error al buscar vehiculo por ID", e);
         }
     }
 
     @Override
-    public List<Propietario> findAll() throws DatabaseException {
+    public List<Vehiculo> findAll() throws DatabaseException {
         try {
             return collection.find().into(new ArrayList<>());
         } catch (Exception e) {
-            throw new DatabaseException("Error al obtener todos los Propietarios", e);
+            throw new DatabaseException("Error al obtener todos los vehiculos", e);
         }
     }
 
@@ -89,7 +94,7 @@ public class PropietarioDAO implements IGenericDAO<Propietario, ObjectId>, IProp
         try {
             return collection.countDocuments();
         } catch (Exception e) {
-            throw new DatabaseException("Error al contar Propietarios", e);
+            throw new DatabaseException("Error al contar vehiculos", e);
         }
     }
 
@@ -99,22 +104,23 @@ public class PropietarioDAO implements IGenericDAO<Propietario, ObjectId>, IProp
             ValidationUtil.requireNonNull(id, "id");
             return collection.countDocuments(Filters.eq(Constants.FIELD_ID, id)) > 0;
         } catch (Exception e) {
-            throw new DatabaseException("Error al verificar existencia de Propietario", e);
+            throw new DatabaseException("Error al verificar existencia de vehiculo", e);
         }
     }
 
     @Override
-    public List<Propietario> findByField(String fieldName, Object value) throws DatabaseException {
+    public List<Vehiculo> findByField(String fieldName, Object value) throws DatabaseException {
         try {
             ValidationUtil.requireNonEmpty(fieldName, "fieldName");
             return collection.find(Filters.eq(fieldName, value)).into(new ArrayList<>());
         } catch (Exception e) {
-            throw new DatabaseException("Error al buscar Propietarios por campo", e);
+            throw new DatabaseException("Error al buscar vehiculos por campo", e);
         }
+
     }
 
     @Override
-    public List<Propietario> findWithPagination(int page, int pageSize) throws DatabaseException {
+    public List<Vehiculo> findWithPagination(int page, int pageSize) throws DatabaseException {
         try {
             ValidationUtil.validatePositive(page, "page");
             ValidationUtil.validatePositive(pageSize, "pageSize");
@@ -124,25 +130,25 @@ public class PropietarioDAO implements IGenericDAO<Propietario, ObjectId>, IProp
                     .limit(pageSize)
                     .into(new ArrayList<>());
         } catch (Exception e) {
-            throw new DatabaseException("Error al obtener Propietarios con paginación", e);
+            throw new DatabaseException("Error al obtener vehiculos con paginación", e);
         }
     }
 
     @Override
-    public Propietario update(Propietario entity) throws DatabaseException {
+    public Vehiculo update(Vehiculo entity) throws DatabaseException {
         try {
-            ValidationUtil.requireNonNull(entity, "Propietario");
+            ValidationUtil.requireNonNull(entity, "vehiculo");
             ValidationUtil.requireNonNull(entity.getId(), "id");
 
             collection.replaceOne(Filters.eq(Constants.FIELD_ID, entity.getId()), entity);
             return entity;
         } catch (Exception e) {
-            throw new DatabaseException("Error al actualizar Propietario", e);
+            throw new DatabaseException("Error al actualizar vehiculo", e);
         }
     }
 
     @Override
-    public Propietario updatePartial(ObjectId id, Map<String, Object> updates) throws DatabaseException {
+    public Vehiculo updatePartial(ObjectId id, Map<String, Object> updates) throws DatabaseException {
         try {
             ValidationUtil.requireNonNull(id, "id");
             ValidationUtil.requireNonNull(updates, "updates");
@@ -162,7 +168,7 @@ public class PropietarioDAO implements IGenericDAO<Propietario, ObjectId>, IProp
 
             return findById(id).orElse(null);
         } catch (DatabaseException e) {
-            throw new DatabaseException("Error al actualizar parcialmente Propietario", e);
+            throw new DatabaseException("Error al actualizar parcialmente vehiculo", e);
         }
     }
 
@@ -173,18 +179,18 @@ public class PropietarioDAO implements IGenericDAO<Propietario, ObjectId>, IProp
             DeleteResult result = collection.deleteOne(Filters.eq(Constants.FIELD_ID, id));
             return result.getDeletedCount() > 0;
         } catch (Exception e) {
-            throw new DatabaseException("Error al eliminar Propietario", e);
+            throw new DatabaseException("Error al eliminar vehiculo", e);
         }
     }
 
     @Override
-    public boolean delete(Propietario entity) throws DatabaseException {
+    public boolean delete(Vehiculo entity) throws DatabaseException {
         try {
             ValidationUtil.requireNonNull(entity, "Propietario");
             ValidationUtil.requireNonNull(entity.getId(), "id");
             return deleteById(entity.getId());
         } catch (DatabaseException e) {
-            throw new DatabaseException("Error al eliminar Propietario", e);
+            throw new DatabaseException("Error al eliminar vehiculo", e);
         }
     }
 
@@ -194,7 +200,7 @@ public class PropietarioDAO implements IGenericDAO<Propietario, ObjectId>, IProp
             DeleteResult result = collection.deleteMany(Filters.empty());
             return result.getDeletedCount();
         } catch (Exception e) {
-            throw new DatabaseException("Error al eliminar todos los Propietarios", e);
+            throw new DatabaseException("Error al eliminar todos los vehiculos", e);
         }
     }
 
