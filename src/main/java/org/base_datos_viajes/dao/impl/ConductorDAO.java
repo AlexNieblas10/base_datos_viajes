@@ -207,7 +207,7 @@ public class ConductorDAO implements IGenericDAO<Conductor, ObjectId>, IConducto
     @Override
     public void agregarVehiculoAConductor(String conductorId, Vehiculo vehiculo) throws DatabaseException {
 
-        Document vehiculoDoc = new Document("_id", new ObjectId())
+        Document vehiculoDoc = new Document("_id", vehiculo.getId())
                 .append("capacidad", vehiculo.getCapacidad())
                 .append("color", vehiculo.getColor())
                 .append("marca", vehiculo.getMarca())
