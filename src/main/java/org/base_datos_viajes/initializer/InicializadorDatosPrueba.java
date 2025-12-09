@@ -102,8 +102,8 @@ public class InicializadorDatosPrueba {
             // 4. Crear Paradas y Viajes
             
             // viaje1: Obregon a Navojoa ---
-            LocalDate fechaViaje1 = LocalDate.now().plusDays(3);
-            LocalTime horaViaje1 = LocalTime.of(10, 30);
+            LocalDate fechaViaje1 = LocalDate.now();
+            LocalTime horaViaje1 = LocalTime.of(13, 0);
             
             // Constructor Parada: Parada(String direccion, double precio)
             Parada p1v1 = new Parada("Obregon", 250.0);
