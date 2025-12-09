@@ -4,6 +4,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
 import org.base_datos_viajes.config.MongoDBConnection;
 import org.base_datos_viajes.dao.interfaces.IConductorDAO;
 import org.base_datos_viajes.exception.DatabaseException;
@@ -281,4 +282,35 @@ public class ConductorDAO implements IGenericDAO<Conductor, ObjectId>, IConducto
             throw new DatabaseException("Error al obtener Rutas  del conductor", e);
         }
     }
+    
+    @Override
+    public boolean eliminarVehiculoDeConductor(String conductorId, String numeroSerieVehiculo) throws DatabaseException {
+        try {
+            // 1. Validar entradas
+            ValidationUtil.validateObjectId(conductorId, "conductorId");
+            ValidationUtil.requireNonEmpty(numeroSerieVehiculo, "numeroSerieVehiculo");
+
+            // 2. FILTRO: Buscar el conductor por su ID
+            Bson filtro = Filters.eq(Constants.FIELD_ID, new ObjectId(conductorId));
+
+            // 3. CONDICIÓN DE ELIMINACIÓN ($pull):
+            // Define el subdocumento a eliminar dentro del array 'vehiculos'.
+            // Buscamos un elemento donde 'numeroSerie' coincida con el valor.
+            Document condicionPull = new Document("numeroSerie", numeroSerieVehiculo);
+
+            // 4. OPERACIÓN DE ACTUALIZACIÓN: Aplica $pull al array "vehiculos"
+            Bson actualizacion = Updates.pull("vehiculos", condicionPull);
+
+            // 5. Ejecutar la operación
+            UpdateResult result = collection.updateOne(filtro, actualizacion);
+
+            // Retorna true si se modificó al menos un documento
+            return result.getModifiedCount() > 0;
+
+        } catch (Exception e) {
+            // Manejo consistente de excepciones
+            throw new DatabaseException("Error al eliminar vehículo del conductor", e);
+        }
+    }
+    
 }
