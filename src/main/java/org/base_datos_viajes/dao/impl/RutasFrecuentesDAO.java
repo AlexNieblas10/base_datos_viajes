@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Optional;
 import org.base_datos_viajes.config.MongoDBConnection;
 import org.base_datos_viajes.exception.DatabaseException;
-import org.base_datos_viajes.model.Conductor;
 import org.base_datos_viajes.model.RutaFrecuente;
 import org.base_datos_viajes.util.Constants;
 import org.base_datos_viajes.util.ValidationUtil;

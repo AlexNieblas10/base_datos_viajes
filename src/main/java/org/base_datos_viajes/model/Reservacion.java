@@ -3,7 +3,6 @@ package org.base_datos_viajes.model;
 import org.bson.types.ObjectId;
 
 import java.io.Serializable;
-import java.time.Duration;
 import java.util.Objects;
 
 /**
@@ -114,7 +113,7 @@ public class Reservacion implements Serializable {
 
     @Override
     public String toString() {
-        return "Viaje{" +
+        return "Reservacion{" +
                 "id=" + id +
                 ", precio='" + precioTotal + '\'' +
                 ", estatus=" + estatus +

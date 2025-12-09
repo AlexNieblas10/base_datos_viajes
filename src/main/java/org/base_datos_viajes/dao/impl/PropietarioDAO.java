@@ -14,9 +14,9 @@ import java.util.Map;
 import java.util.Optional;
 import org.base_datos_viajes.config.MongoDBConnection;
 import org.base_datos_viajes.dao.interfaces.IGenericDAO;
-import org.base_datos_viajes.dao.interfaces.IParadaDAO;
+import org.base_datos_viajes.dao.interfaces.IPropietarioDAO;
 import org.base_datos_viajes.exception.DatabaseException;
-import org.base_datos_viajes.model.Parada;
+import org.base_datos_viajes.model.Propietario;
 import org.base_datos_viajes.util.Constants;
 import org.base_datos_viajes.util.ValidationUtil;
 import org.bson.conversions.Bson;
@@ -24,64 +24,63 @@ import org.bson.types.ObjectId;
 
 /**
  *
- * @author Usuario
+ * @author adell
  */
-public class ParadaDAO implements IGenericDAO<Parada, ObjectId>, IParadaDAO{
-    private final MongoCollection<Parada> collection;
+public class PropietarioDAO implements IGenericDAO<Propietario, ObjectId>, IPropietarioDAO {
 
-    public ParadaDAO() {
-        this.collection = MongoDBConnection.getInstance()
-                .getDatabase()
-                .getCollection(Constants.COLLECTION_PARADAS, Parada.class);
+    private final MongoCollection<Propietario> collection;
+
+    public PropietarioDAO() {
+        this.collection = MongoDBConnection.getInstance().getDatabase().getCollection(Constants.COLLECTION_PROPIETARIO, Propietario.class);
     }
 
     @Override
-    public Parada save(Parada entity) throws DatabaseException {
+    public Propietario save(Propietario entity) throws DatabaseException {
         try {
-            ValidationUtil.requireNonNull(entity, "parada");
+            ValidationUtil.requireNonNull(entity, "Propietario");
             if (entity.getId() == null) {
                 entity.setId(new ObjectId());
             }
             collection.insertOne(entity);
             return entity;
         } catch (Exception e) {
-            throw new DatabaseException("Error al guardar parada", e);
+            throw new DatabaseException("Error al guardar Propietario", e);
         }
     }
 
     @Override
-    public List<Parada> saveAll(List<Parada> entities) throws DatabaseException {
+    public List<Propietario> saveAll(List<Propietario> entities) throws DatabaseException {
         try {
-            ValidationUtil.requireNonEmpty(entities, "paradas");
-            for (Parada parada : entities) {
-                if (parada.getId() == null) {
-                   parada.setId(new ObjectId());
+            ValidationUtil.requireNonEmpty(entities, "Propietario");
+            for (Propietario Propietario : entities) {
+                if (Propietario.getId() == null) {
+                    Propietario.setId(new ObjectId());
                 }
             }
             collection.insertMany(entities);
             return entities;
         } catch (Exception e) {
-            throw new DatabaseException("Error al guardar múltiples paradas", e);
+            throw new DatabaseException("Error al guardar múltiples Propietarios", e);
         }
     }
 
     @Override
-    public Optional<Parada> findById(ObjectId id) throws DatabaseException {
+    public Optional<Propietario> findById(ObjectId id) throws DatabaseException {
         try {
             ValidationUtil.requireNonNull(id, "id");
-            Parada parada = collection.find(Filters.eq(Constants.FIELD_ID, id)).first();
-            return Optional.ofNullable(parada);
+            Propietario Propietario = collection.find(Filters.eq(Constants.FIELD_ID, id)).first();
+            return Optional.ofNullable(Propietario);
         } catch (Exception e) {
-            throw new DatabaseException("Error al buscar parada por ID", e);
+            throw new DatabaseException("Error al buscar Propietario por ID", e);
         }
     }
 
     @Override
-    public List<Parada> findAll() throws DatabaseException {
+    public List<Propietario> findAll() throws DatabaseException {
         try {
             return collection.find().into(new ArrayList<>());
         } catch (Exception e) {
-            throw new DatabaseException("Error al obtener todas las paradas", e);
+            throw new DatabaseException("Error al obtener todos los Propietarios", e);
         }
     }
 
@@ -90,7 +89,7 @@ public class ParadaDAO implements IGenericDAO<Parada, ObjectId>, IParadaDAO{
         try {
             return collection.countDocuments();
         } catch (Exception e) {
-            throw new DatabaseException("Error al contar paradas", e);
+            throw new DatabaseException("Error al contar Propietarios", e);
         }
     }
 
@@ -100,25 +99,50 @@ public class ParadaDAO implements IGenericDAO<Parada, ObjectId>, IParadaDAO{
             ValidationUtil.requireNonNull(id, "id");
             return collection.countDocuments(Filters.eq(Constants.FIELD_ID, id)) > 0;
         } catch (Exception e) {
-            throw new DatabaseException("Error al verificar existencia de parada", e);
+            throw new DatabaseException("Error al verificar existencia de Propietario", e);
         }
     }
 
     @Override
-    public Parada update(Parada entity) throws DatabaseException {
+    public List<Propietario> findByField(String fieldName, Object value) throws DatabaseException {
         try {
-            ValidationUtil.requireNonNull(entity, "parada");
+            ValidationUtil.requireNonEmpty(fieldName, "fieldName");
+            return collection.find(Filters.eq(fieldName, value)).into(new ArrayList<>());
+        } catch (Exception e) {
+            throw new DatabaseException("Error al buscar Propietarios por campo", e);
+        }
+    }
+
+    @Override
+    public List<Propietario> findWithPagination(int page, int pageSize) throws DatabaseException {
+        try {
+            ValidationUtil.validatePositive(page, "page");
+            ValidationUtil.validatePositive(pageSize, "pageSize");
+
+            return collection.find()
+                    .skip((page - 1) * pageSize)
+                    .limit(pageSize)
+                    .into(new ArrayList<>());
+        } catch (Exception e) {
+            throw new DatabaseException("Error al obtener Propietarios con paginación", e);
+        }
+    }
+
+    @Override
+    public Propietario update(Propietario entity) throws DatabaseException {
+        try {
+            ValidationUtil.requireNonNull(entity, "Propietario");
             ValidationUtil.requireNonNull(entity.getId(), "id");
 
             collection.replaceOne(Filters.eq(Constants.FIELD_ID, entity.getId()), entity);
             return entity;
         } catch (Exception e) {
-            throw new DatabaseException("Error al actualizar parada", e);
+            throw new DatabaseException("Error al actualizar Propietario", e);
         }
     }
 
     @Override
-    public Parada updatePartial(ObjectId id, Map<String, Object> updates) throws DatabaseException {
+    public Propietario updatePartial(ObjectId id, Map<String, Object> updates) throws DatabaseException {
         try {
             ValidationUtil.requireNonNull(id, "id");
             ValidationUtil.requireNonNull(updates, "updates");
@@ -138,7 +162,7 @@ public class ParadaDAO implements IGenericDAO<Parada, ObjectId>, IParadaDAO{
 
             return findById(id).orElse(null);
         } catch (DatabaseException e) {
-            throw new DatabaseException("Error al actualizar parcialmente parada", e);
+            throw new DatabaseException("Error al actualizar parcialmente Propietario", e);
         }
     }
 
@@ -149,18 +173,18 @@ public class ParadaDAO implements IGenericDAO<Parada, ObjectId>, IParadaDAO{
             DeleteResult result = collection.deleteOne(Filters.eq(Constants.FIELD_ID, id));
             return result.getDeletedCount() > 0;
         } catch (Exception e) {
-            throw new DatabaseException("Error al eliminar parada", e);
+            throw new DatabaseException("Error al eliminar Propietario", e);
         }
     }
 
     @Override
-    public boolean delete(Parada entity) throws DatabaseException {
+    public boolean delete(Propietario entity) throws DatabaseException {
         try {
-            ValidationUtil.requireNonNull(entity, "parada");
+            ValidationUtil.requireNonNull(entity, "Propietario");
             ValidationUtil.requireNonNull(entity.getId(), "id");
             return deleteById(entity.getId());
         } catch (DatabaseException e) {
-            throw new DatabaseException("Error al eliminar parada", e);
+            throw new DatabaseException("Error al eliminar Propietario", e);
         }
     }
 
@@ -170,32 +194,7 @@ public class ParadaDAO implements IGenericDAO<Parada, ObjectId>, IParadaDAO{
             DeleteResult result = collection.deleteMany(Filters.empty());
             return result.getDeletedCount();
         } catch (Exception e) {
-            throw new DatabaseException("Error al eliminar todas las paradas", e);
-        }
-    }
-
-    @Override
-    public List<Parada> findByField(String fieldName, Object value) throws DatabaseException {
-        try {
-            ValidationUtil.requireNonEmpty(fieldName, "fieldName");
-            return collection.find(Filters.eq(fieldName, value)).into(new ArrayList<>());
-        } catch (Exception e) {
-            throw new DatabaseException("Error al buscar paradas por campo", e);
-        }
-    }
-
-    @Override
-    public List<Parada> findWithPagination(int page, int pageSize) throws DatabaseException {
-        try {
-            ValidationUtil.validatePositive(page, "page");
-            ValidationUtil.validatePositive(pageSize, "pageSize");
-
-            return collection.find()
-                    .skip((page - 1) * pageSize)
-                    .limit(pageSize)
-                    .into(new ArrayList<>());
-        } catch (Exception e) {
-            throw new DatabaseException("Error al obtener paradas con paginación", e);
+            throw new DatabaseException("Error al eliminar todos los Propietarios", e);
         }
     }
 

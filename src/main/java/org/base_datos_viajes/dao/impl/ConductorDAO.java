@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 import org.base_datos_viajes.dao.interfaces.IGenericDAO;
 import org.base_datos_viajes.model.RutaFrecuente;
+import org.bson.Document;
 
 /**
  * DAO para la entidad Conductor. Implementa todas las operaciones CRUD
@@ -204,6 +205,29 @@ public class ConductorDAO implements IGenericDAO<Conductor, ObjectId>, IConducto
 
     // ===== Métodos específicos de IConductorDAO =====
     @Override
+    public void agregarVehiculoAConductor(String conductorId, Vehiculo vehiculo) throws DatabaseException {
+
+        Document vehiculoDoc = new Document("_id", vehiculo.getId())
+                .append("capacidad", vehiculo.getCapacidad())
+                .append("color", vehiculo.getColor())
+                .append("marca", vehiculo.getMarca())
+                .append("modelo", vehiculo.getModelo())
+                .append("numeroSerie", vehiculo.getNumeroSerie())
+                .append("placas", vehiculo.getPlacas());
+
+        Bson filtro = new Document("_id", new ObjectId(conductorId));
+        Bson actualizacion = Updates.push("vehiculos", vehiculoDoc);
+
+        try {
+            collection.updateOne(filtro, actualizacion);
+            System.out.println("Vehículo agregado");
+        } catch (Exception e) {
+            throw new DatabaseException("Error al agregar vehiculo al conductor", e);
+        }
+
+    }
+
+    @Override
     public List<Viaje> obtenerViajes(String conductorId) throws DatabaseException {
         try {
             ValidationUtil.validateObjectId(conductorId, "conductorId");
@@ -241,6 +265,7 @@ public class ConductorDAO implements IGenericDAO<Conductor, ObjectId>, IConducto
         }
     }
 
+    @Override
     public List<RutaFrecuente> obtenerRutasFrecuentes(String conductorId) throws DatabaseException {
         try {
             ValidationUtil.validateObjectId(conductorId, "conductorId");

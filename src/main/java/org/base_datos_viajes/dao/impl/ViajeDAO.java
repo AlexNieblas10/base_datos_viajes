@@ -39,11 +39,28 @@ public class ViajeDAO implements IGenericDAO<Viaje, ObjectId>, IViajeDAO {
     public Viaje save(Viaje entity) throws DatabaseException {
         try {
             ValidationUtil.requireNonNull(entity, "viaje");
+
+            if (entity.getParadas() == null) {
+                entity.setParadas(new ArrayList<>());
+            }
+
+            List<Parada> paradas = entity.getParadas();
+            String origen = entity.getOrigen();
+
+            if (paradas.isEmpty()|| (origen != null && !paradas.get(0).getDireccion().trim().equalsIgnoreCase(origen.trim()))) {
+                
+                Parada paradaOrigen = new Parada(origen, entity.getPrecioTotal());
+                paradas.add(0, paradaOrigen);
+                paradaOrigen.setId(new ObjectId());
+            }
+            
             if (entity.getId() == null) {
                 entity.setId(new ObjectId());
             }
+            
             collection.insertOne(entity);
             return entity;
+
         } catch (Exception e) {
             throw new DatabaseException("Error al guardar viaje", e);
         }

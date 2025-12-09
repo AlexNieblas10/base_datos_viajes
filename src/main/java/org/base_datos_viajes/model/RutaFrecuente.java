@@ -45,6 +45,40 @@ public class RutaFrecuente implements Serializable {
         this.conductorId = conductorId;
     }
 
+    public RutaFrecuente(ObjectId id, String nombre, String destino, String origen, LocalDate fecha, LocalTime hora, double precioTotal, List<Parada> paradas) {
+        this.id = id;
+        this.nombre = nombre;
+        this.destino = destino;
+        this.origen = origen;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.precioTotal = precioTotal;
+        this.paradas = paradas;
+    }
+
+    public RutaFrecuente(ObjectId id, String nombre, String destino, String origen, LocalDate fecha, LocalTime hora, double precioTotal) {
+        this.id = id;
+        this.nombre = nombre;
+        this.destino = destino;
+        this.origen = origen;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.precioTotal = precioTotal;
+    }
+
+    public RutaFrecuente(String nombre, String destino, String origen, LocalDate fecha, LocalTime hora, double precioTotal) {
+        this.nombre = nombre;
+        this.destino = destino;
+        this.origen = origen;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.precioTotal = precioTotal;
+    }
+    
+    
+    
+    
+
     public ObjectId getId() {
         return id;
     }
