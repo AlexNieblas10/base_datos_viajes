@@ -208,7 +208,7 @@ public class RutasFrecuentesDAO implements IGenericDAO<RutaFrecuente, ObjectId>,
     @Override
     public List<Parada> obtenerParadasRuta(String rutaId) throws DatabaseException {
         try {
-            ValidationUtil.validateObjectId(rutaId, "viajeId");
+            ValidationUtil.validateObjectId(rutaId, "rutaId");
             Optional<RutaFrecuente> rutaOpt = findById(new ObjectId(rutaId));
 
             if (rutaOpt.isEmpty()) {
@@ -222,6 +222,7 @@ public class RutasFrecuentesDAO implements IGenericDAO<RutaFrecuente, ObjectId>,
         }
     }
     
+    @Override
     public List<RutaFrecuente> obtenerRutasFrecuentes(String conductorId) throws DatabaseException {
         try {
             ValidationUtil.validateObjectId(conductorId, "conductorId");
