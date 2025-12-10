@@ -33,7 +33,7 @@ public interface IConductorDAO extends IGenericDAO<Conductor, ObjectId> {
      */
     List<Vehiculo> obtenerVehiculos(String conductorId) throws DatabaseException;
 
-    List<RutaFrecuente> obtenerRutasFrecuentes(String conductorId) throws DatabaseException;
+   
 
     public void agregarVehiculoAConductor(String conductorId, Vehiculo vehiculo) throws DatabaseException;
     public boolean eliminarVehiculoDeConductor(String conductorId, String numeroSerieVehiculo) throws DatabaseException;

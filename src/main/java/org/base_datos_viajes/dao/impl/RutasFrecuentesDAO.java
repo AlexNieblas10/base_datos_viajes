@@ -178,7 +178,7 @@ public class RutasFrecuentesDAO implements IGenericDAO<RutaFrecuente, ObjectId>,
             DeleteResult result = collection.deleteOne(Filters.eq(Constants.FIELD_ID, id));
             return result.getDeletedCount() > 0;
         } catch (Exception e) {
-            throw new DatabaseException("Error al eliminar conductor", e);
+            throw new DatabaseException("Error al eliminar ruta", e);
         }
     }
 
@@ -219,6 +219,22 @@ public class RutasFrecuentesDAO implements IGenericDAO<RutaFrecuente, ObjectId>,
             return ruta.getParadas() != null ? ruta.getParadas() : Collections.emptyList();
         } catch (DatabaseException e) {
             throw new DatabaseException("Error al obtener paradas de la ruta", e);
+        }
+    }
+    
+    public List<RutaFrecuente> obtenerRutasFrecuentes(String conductorId) throws DatabaseException {
+        try {
+            ValidationUtil.validateObjectId(conductorId, "conductorId");
+
+            MongoCollection<RutaFrecuente> viajeCollection = MongoDBConnection.getInstance()
+                    .getDatabase()
+                    .getCollection(Constants.COLLECTION_RUTAS, RutaFrecuente.class);
+
+            return viajeCollection.find(Filters.and(
+                    Filters.eq("conductorId", new ObjectId(conductorId))
+            )).into(new ArrayList<>());
+        } catch (Exception e) {
+            throw new DatabaseException("Error al obtener Rutas  del conductor", e);
         }
     }
 

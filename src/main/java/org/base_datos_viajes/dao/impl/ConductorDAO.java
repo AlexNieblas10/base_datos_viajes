@@ -266,22 +266,7 @@ public class ConductorDAO implements IGenericDAO<Conductor, ObjectId>, IConducto
         }
     }
 
-    @Override
-    public List<RutaFrecuente> obtenerRutasFrecuentes(String conductorId) throws DatabaseException {
-        try {
-            ValidationUtil.validateObjectId(conductorId, "conductorId");
-
-            MongoCollection<RutaFrecuente> viajeCollection = MongoDBConnection.getInstance()
-                    .getDatabase()
-                    .getCollection(Constants.COLLECTION_RUTAS, RutaFrecuente.class);
-
-            return viajeCollection.find(Filters.and(
-                    Filters.eq("conductorId", new ObjectId(conductorId))
-            )).into(new ArrayList<>());
-        } catch (Exception e) {
-            throw new DatabaseException("Error al obtener Rutas  del conductor", e);
-        }
-    }
+   
     
     @Override
     public boolean eliminarVehiculoDeConductor(String conductorId, String numeroSerieVehiculo) throws DatabaseException {
