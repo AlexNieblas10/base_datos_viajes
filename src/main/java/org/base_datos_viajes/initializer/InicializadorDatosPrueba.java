@@ -131,7 +131,6 @@ public class InicializadorDatosPrueba {
             List<Parada> paradasViaje1 = new ArrayList<>();
             paradasViaje1.add(p2v1);
             paradasViaje1.add(p3v1);
-            paradaDAO.saveAll(paradasViaje1);
 
             Viaje viaje1 = new Viaje(
                     "Viaje a Navojoa",
@@ -156,7 +155,6 @@ public class InicializadorDatosPrueba {
             Parada pv2 = new Parada("Central Camiones", 40.0);
             List<Parada> paradasViaje2 = new ArrayList<>();
             paradasViaje2.add(pv2);
-            paradaDAO.saveAll(paradasViaje2);
 
             Viaje viaje2 = new Viaje(
                     "Viaje a Esperanza",
