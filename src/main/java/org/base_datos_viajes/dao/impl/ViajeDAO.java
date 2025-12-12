@@ -28,6 +28,7 @@ import org.base_datos_viajes.dao.interfaces.IGenericDAO;
 public class ViajeDAO implements IGenericDAO<Viaje, ObjectId>, IViajeDAO {
 
     private final MongoCollection<Viaje> collection;
+    private ParadaDAO paradaDAO = new ParadaDAO();
 
     public ViajeDAO() {
         this.collection = MongoDBConnection.getInstance()
@@ -57,7 +58,7 @@ public class ViajeDAO implements IGenericDAO<Viaje, ObjectId>, IViajeDAO {
             if (entity.getId() == null) {
                 entity.setId(new ObjectId());
             }
-            
+            paradaDAO.saveAll(paradas);
             collection.insertOne(entity);
             return entity;
 

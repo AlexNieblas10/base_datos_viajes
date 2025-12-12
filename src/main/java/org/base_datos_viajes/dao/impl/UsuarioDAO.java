@@ -196,19 +196,33 @@ public class UsuarioDAO implements IGenericDAO<Usuario, ObjectId> {
         }
     }
 
-    //buscar por usuario y contraseña
+    //buscar por usuario (sin verificar contraseña, eso se hace en la capa de negocio)
     public Optional<Usuario> consultarPorCredenciales(String usuario, String contrasena) throws DatabaseException {
         try {
-            Bson filtro = Filters.and(
-                    Filters.eq("usuario", usuario),
-                    Filters.eq("contraseña", contrasena)
-            );
-
+            // Solo buscamos por nombre de usuario
+            Bson filtro = Filters.eq("usuario", usuario);
             Usuario entidad = collection.find(filtro).first();
             return Optional.ofNullable(entidad);
 
         } catch (Exception e) {
             throw new DatabaseException("Error al consultar usuario por credenciales", e);
+        }
+    }
+
+    /**
+     * Busca un usuario por su nombre de usuario.
+     *
+     * @param nombreUsuario El nombre de usuario a buscar
+     * @return Optional con el usuario si existe, vacío si no
+     * @throws DatabaseException si ocurre un error en la base de datos
+     */
+    public Optional<Usuario> findByUsername(String nombreUsuario) throws DatabaseException {
+        try {
+            ValidationUtil.requireNonEmpty(nombreUsuario, "nombreUsuario");
+            Usuario usuario = collection.find(Filters.eq("usuario", nombreUsuario)).first();
+            return Optional.ofNullable(usuario);
+        } catch (Exception e) {
+            throw new DatabaseException("Error al buscar usuario por nombre de usuario", e);
         }
     }
 

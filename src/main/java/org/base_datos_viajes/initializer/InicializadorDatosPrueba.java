@@ -24,6 +24,7 @@ import org.base_datos_viajes.dao.impl.PasajeroDAO;
 import org.base_datos_viajes.dao.impl.RutasFrecuentesDAO;
 import org.base_datos_viajes.model.Pasajero;
 import org.base_datos_viajes.model.RutaFrecuente;
+import org.base_datos_viajes.util.PasswordUtil;
 
 /**
  *
@@ -114,11 +115,13 @@ public class InicializadorDatosPrueba {
             pasajeroDAO.save(pasajero1);
 
             // 3. Crear y persistir Usuario vinculado al Conductor
-            Usuario usuario1 = new Usuario("cperez", "1234");
+            // La contraseña se cifra usando BCrypt antes de guardar
+            String contrasenaCifrada = PasswordUtil.hashPassword("1234");
+            Usuario usuario1 = new Usuario("cperez", contrasenaCifrada);
             usuario1.setConductorId(conductor1.getId());
             usuario1.setPasajeroId(pasajero1.getId());
             usuarioDAO.save(usuario1);
-            LOGGER.log(Level.INFO, "Usuario de prueba (cperez) insertado con ID: {0}", usuario1.getId());
+            LOGGER.log(Level.INFO, "Usuario de prueba (cperez) insertado con ID: {0} y contrase\u00f1a cifrada", usuario1.getId());
 
             // 4. Crear Paradas y Viajes
             // viaje1: Obregon a Navojoa ---
